@@ -1,0 +1,8 @@
+# ENVS
+.env
+
+# NODE
+node_modules
+
+# Mongo
+/mongo

@@ -1,0 +1,27 @@
+### Este archivo funciona con la extension de VS-CODE
+### REST-CLIENT
+
+### Get Users
+GET http://localhost:8080/auth
+
+### Delete Users
+DELETE http://localhost:8080/auth
+
+### Login
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+	"email": "jomiantoca2011@gmail.com",
+	"password": "123456"
+}
+
+### Register
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+	"name": "Miguel Angel",
+	"email": "jomiantoca2011@gmail.com",
+	"password": "123456"
+}
