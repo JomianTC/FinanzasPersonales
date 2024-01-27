@@ -13,7 +13,6 @@ export class AuthDatasourceImpl implements AuthDatasource {
 		private readonly comparePassword: CompareHashFunction = BcryptAdapter.compare,
 	){}
 
-
 	async login( loginUserDTO: LoginUserDTO ): Promise< UserEntity > {
 
 		const { email, password } = loginUserDTO;

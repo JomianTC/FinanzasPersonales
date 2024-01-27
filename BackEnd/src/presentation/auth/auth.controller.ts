@@ -1,7 +1,7 @@
+import { UserModel } from "../../data/mongo";
 import { Request, Response } from "express"
 import { AuthRepository } from '../../domain/repositories/auth.repository';
 import { CustomError, LoginUser, LoginUserDTO, RegisterUser, RegisterUserDTO } from "../../domain";
-import { UserModel } from "../../data/mongo";
 
 export class AuthController {
 
