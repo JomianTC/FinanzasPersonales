@@ -12,19 +12,11 @@ export class TransactionsRoutes {
 		const repository = new TransactionRepositoryImpl( datasource );
 		const controller = new TransactionsController( repository );		
 
-		router.post( "/", controller.getTransactions.bind( controller ) );
-		router.post( "/create", controller.createTransaction.bind( controller ) );
-		router.put( "/update", controller.updateTransactions.bind( controller ) );
-		router.delete( "/delete", controller.deleteTransaction.bind( controller ) );
+		router.post( "/", controller.getTransactions );
+		router.post( "/create", controller.createTransaction );
+		router.put( "/update", controller.updateTransactions );
+		router.delete( "/delete", controller.deleteTransaction );
 
 		return router;
 	}
 }
-
-/*
-
-ERROR SIN BIND
-TypeError: Cannot read properties of undefined (reading 'transactionRepository')
-
-*/
-

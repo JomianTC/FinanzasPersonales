@@ -19,7 +19,7 @@ export class TransactionsController {
 
 	// TODO: Falta el Use Case
 
-	getTransactions( req: Request, res: Response ) {
+	getTransactions = ( req: Request, res: Response ) => {
 
 		const userId = req.body.user;
 
@@ -31,7 +31,7 @@ export class TransactionsController {
 		return;
 	}
 
-	createTransaction( req: Request, res: Response ) {
+	createTransaction = ( req: Request, res: Response ) => {
 
 		const [ createTransactionError, createTransactionDTO ] = CreateTransactionDTO.create( req.body );
 		if ( createTransactionError ) return res.status( 400 ).json({ createTransactionError });
@@ -44,7 +44,7 @@ export class TransactionsController {
 		return;
 	}
 
-	updateTransactions( req: Request, res: Response ) {
+	updateTransactions = ( req: Request, res: Response ) => {
 
 		const [ updateTransactionError, updateTransactionDTO ] = UpdateTransactionDTO.create( req.body );
 		if ( updateTransactionError ) return res.status( 400 ).json({ updateTransactionError });
@@ -59,7 +59,7 @@ export class TransactionsController {
 		return;
 	}
 
-	deleteTransaction( req: Request, res: Response ) {
+	deleteTransaction = ( req: Request, res: Response ) => {
 
 		const transactionId = req.body.id;
 		
