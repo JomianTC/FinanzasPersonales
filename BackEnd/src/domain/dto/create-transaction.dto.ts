@@ -1,5 +1,4 @@
-
-const validMovements = [ "INCOME", "COST" ];
+import { TransactionEntity } from "../entities/transaction.entity";
 
 export class CreateTransactionDTO {
 
@@ -14,6 +13,8 @@ export class CreateTransactionDTO {
 	static create ( object: {[ key: string ]: any} ): [ string?, CreateTransactionDTO? ]{
 
 		const { user, movement, mount, description = "", date = new Date() } = object;
+
+		const validMovements = TransactionEntity.validMovements;
 
 		if ( !user ) return [ "User is required" ];
 		if ( !validMovements.includes( movement ) ) return [ "Movement not valid" ];

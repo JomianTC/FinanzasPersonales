@@ -10,7 +10,7 @@ export class UserMapper {
 		if ( !name ) throw CustomError.badRequest( "Missing name" );
 		if ( !email ) throw CustomError.badRequest( "Missing email" );
 		if ( !password ) throw CustomError.badRequest( "Missing password" );
-		if ( balance !== 0 ) throw CustomError.badRequest( "Missing balance" );
+		if ( balance === undefined ) throw CustomError.badRequest( "Missing balance" );
 
 		return new UserEntity( _id || id, name, email, password, balance );
 	}

@@ -17,8 +17,6 @@ export class TransactionsController {
 		return res.status( 500 ).json({ error: "Internal Server Error" });
 	}
 
-	// TODO: Falta el Use Case
-
 	getTransactions = ( req: Request, res: Response ) => {
 
 		const userId = req.body.user;
