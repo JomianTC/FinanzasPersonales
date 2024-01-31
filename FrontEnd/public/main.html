@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="icon" href="assets/icon/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="assets/icon/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="assets/css/styles-main.css">
+	<title>Finanzas</title>
+</head>
+
+<body>
+	<h1>
+		Bienvenido
+		<b id="userH1">
+			USUARIO
+		</b>
+	</h1>
+
+	<table>
+		<h3>Agregar</h3>
+		<tr>
+			<th>Movimiento</th>
+			<th>Monto</th>
+			<th>Descripcion</th>
+			<th>Fecha</th>
+			<th>Agregar</th>
+		</tr>
+		<tr>
+			<td>
+				<select id="movement" placeholder="Seleccionar">
+					<option value="" disabled selected hidden>Seleccionar</option>
+					<option value="COST">Egreso</option>
+					<option value="INCOME">Ingreso</option>
+				</select>
+			</td>
+			<td>
+				<input id="mount" type="number" placeholder="Monto" />
+			</td>
+			<td>
+				<input id="description" type="text" placeholder="Descripcion" />
+			</td>
+			<td>
+				<input id="date" type="date" placeholder="Fecha" />
+			</td>
+			<td>
+				<button id="add">Agregar</button>
+			</td>
+		</tr>
+	</table>
+
+	<table id="transactionTable">
+		<h3>Historial</h3>
+		<tr>
+			<th>Id</th>
+			<th>Movimiento</th>
+			<th>Monto</th>
+			<th>Descripcion</th>
+			<th>Fecha</th>
+			<th>Actualizar</th>
+			<th>Eliminar</th>
+		</tr>
+	</table>
+
+	<div id="updateModal" class="modal">
+		<div class="contentModal">
+			<span class="closeModal">&times;</span>
+			<form id="formInput">
+				<h1>Actualizar transaccion</h1>
+				<div>
+					<label>Movimiento</label>
+					<select id="inputMovement" placeholder="Seleccionar">
+						<option value="" disabled selected hidden>Seleccionar</option>
+						<option value="COST">Egreso</option>
+						<option value="INCOME">Ingreso</option>
+					</select>
+				</div>
+				<div>
+					<label>Monto</label>
+					<input id="inputMount" type="number" placeholder="Monto" />
+				</div>
+				<div>
+					<label>Descripcion</label>
+					<input id="inputDescription" type="text" placeholder="Descripcion" />
+				</div>
+				<div>
+					<label>Fecha</label>
+					<input id="inputDate" type="date" placeholder="Fecha" />
+				</div>
+				<button id="inputUpdate" type="submit">Actualizar</button>
+			</form>
+		</div>
+	</div>
+
+	<script type="module" src="assets/js/main.ts"></script>
+</body>
+
+</html>
