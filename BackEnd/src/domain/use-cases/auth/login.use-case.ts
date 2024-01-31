@@ -6,6 +6,7 @@ interface UserLog {
 		id: string,
 		name: string,
 		email: string,
+		balance: number,
 	}
 }
 
@@ -28,6 +29,7 @@ export class LoginUser implements LoginUserUseCase {
 				id: user.id,
 				name: user.name,
 				email: user.email,
+				balance: user.balance,
 			}
 		}
 	}

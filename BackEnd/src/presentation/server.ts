@@ -1,4 +1,5 @@
 import express, { Router } from "express";
+import cors from "cors";
 
 interface ServerOptions {
 	port: number;
@@ -21,6 +22,7 @@ export class Server {
 
 	start(){
 
+		this.app.use( cors() );
 		this.app.use( express.json() );
 
 		this.app.use( this.routes );

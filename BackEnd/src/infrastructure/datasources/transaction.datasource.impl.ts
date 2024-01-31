@@ -11,7 +11,8 @@ export class TransactionDatasourceImpl implements TransactionDatasource {
 		try {
 
 			const transactions = await TransactionModel.find({ user: userID });
-			if ( !transactions ) throw CustomError.badRequest( "Transactions not found" );
+			if ( !transactions || transactions.length === 0 )
+				throw CustomError.badRequest( "Transactions not found" );
 
 			let userTransactions: TransactionEntity[] = [];
 			
@@ -22,7 +23,8 @@ export class TransactionDatasourceImpl implements TransactionDatasource {
 			return userTransactions;
 
 		} catch (error) {
-			console.log( error );
+
+			if ( error instanceof CustomError ) throw error;
 			throw CustomError.internalServer( "Internal Server Error" );
 		}
 	}
@@ -40,7 +42,8 @@ export class TransactionDatasourceImpl implements TransactionDatasource {
 			return TransactionMapper.transactionEntityFromObject( transaction );
 
 		} catch (error) {
-			console.log( error );
+
+			if ( error instanceof CustomError ) throw error;
 			throw CustomError.internalServer( "Internal Server Error" );
 		}
 	}
@@ -61,7 +64,8 @@ export class TransactionDatasourceImpl implements TransactionDatasource {
 			return TransactionMapper.transactionEntityFromObject( newTransaction! );
 			
 		} catch (error) {
-			console.log( error );
+
+			if ( error instanceof CustomError ) throw error;
 			throw CustomError.internalServer( "Internal Server Error" );
 		}
 	}
@@ -76,7 +80,8 @@ export class TransactionDatasourceImpl implements TransactionDatasource {
 			return TransactionMapper.transactionEntityFromObject( deletedTransaction );
 		
 		} catch (error) {
-			console.log( error );
+			
+			if ( error instanceof CustomError ) throw error;
 			throw CustomError.internalServer( "Internal Server Error" );
 		}
 	}
