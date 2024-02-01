@@ -42,7 +42,6 @@ export class TransactionDatasourceImpl implements TransactionDatasource {
 			return TransactionMapper.transactionEntityFromObject( transaction );
 
 		} catch (error) {
-
 			if ( error instanceof CustomError ) throw error;
 			throw CustomError.internalServer( "Internal Server Error" );
 		}

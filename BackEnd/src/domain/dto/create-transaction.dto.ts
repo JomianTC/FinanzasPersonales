@@ -19,7 +19,9 @@ export class CreateTransactionDTO {
 		if ( !user ) return [ "User is required" ];
 		if ( !validMovements.includes( movement ) ) return [ "Movement not valid" ];
 		if ( !mount ) return [ "Mount is required" ];
-
+		if ( !(date instanceof Date) )
+			return [ undefined, new CreateTransactionDTO( user, movement, mount, description, new Date( date ) ) ];
+		
 		return [ undefined, new CreateTransactionDTO( user, movement, mount, description, date ) ];
 	}	
 }
