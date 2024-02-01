@@ -1,3 +1,17 @@
+type CreateTransaction = {
+	user: String;
+	movement: String;
+	mount: Number;
+	description: String;
+	date: string;
+}
+
+type UserBalance = {
+	userId: String;
+	movement: String;
+	mount: Number;
+}
+
 export class HttpRequest {
 
 	constructor() {}
@@ -34,9 +48,64 @@ export class HttpRequest {
 		.catch( error => { throw error });
 	}
 
-	// async createTransaction( url: string ) {}
+	static async createTransaction( createTransaction: CreateTransaction ) {
+
+		// Datos que se envian al servidor:
+		// "user": "65b96bee7fc2a5cb8e9a7c31",
+		// "movement": "INCOME",
+		// "mount": "10000",
+		// "description": "Salary"
+		// "date": "2024-09-29 <-> año-mes-dia "
+
+		return fetch( "http://localhost:8080/transaction/create", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify( createTransaction )
+		})
+		.then( response => {
+			if ( !response.ok ) throw response.status;
+			return response.json();
+		})
+		.then( data => { return data; })
+		.catch( error => { throw error });
+	}
+
 	// async updateTransaction( url: string ) {}
-	// async deleteTransaction( url: string ) {}
+
+	static async deleteTransaction( transactionID: string ) {
+
+		return fetch( "http://localhost:8080/transaction/delete", {
+			method: "DELETE",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ id: transactionID })
+		})
+		.then( response => {
+			if ( !response.ok ) throw response.status;
+			return response.json();
+		})
+		.then( data => { return data; })
+		.catch( error => { throw error });
+	}
+
+	static async updateUserBalance( userBalance: UserBalance ) {
+
+		// Datos que se envian al servidor:
+		// "userId": "65b96bee7fc2a5cb8e9a7c31",
+		// "movement": "INCOME",
+		// "mount": "200"
+
+		return fetch( "http://localhost:8080/user/updateBalance", {
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify( userBalance )
+		})
+		.then( response => {
+			if ( !response.ok ) throw response.status;
+			return response.json();
+		})
+		.then( data => { return data; })
+		.catch( error => { throw error });
+	}
 }
 
 

@@ -13,3 +13,23 @@ Esta aplicación tendrá las siguientes funciones, en un futuro puede que se agr
 - Agregar un gasto
 - Modificar un gasto
 - Eliminar un gasto
+
+# TO DO
+
+- Agregar JWT
+
+- Hacerlo una PWA
+	- Hacerla responsiva
+	- Guardar últimos 50 registros
+	- Guardar registros creados sin conexión
+
+- Agregar propiedad method
+	- Efectivo
+	- Tarjeta
+
+- Dividir historial FrontEnd
+	- Efectivo
+	- Tarjeta
+
+- Notificación a final de mes
+	- Total gastado a final de mes
