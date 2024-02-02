@@ -24,7 +24,7 @@ Content-Type: application/json
 
 {
 	"name": "Miguel Angel",
-	"email": "jomiantoca2011@gmail.com",
+	"email": "jomiantoca-2013@gmail.com",
 	"password": "123456"
 }
 
@@ -37,9 +37,9 @@ PUT http://localhost:8080/user/updateBalance
 Content-Type: application/json
 
 {
-	"userId": "65b96bee7fc2a5cb8e9a7c31",
+	"userId": "65bd539c03426b5b68b9188c",
 	"movement": "INCOME",
-	"mount": "0"
+	"mount": "100"
 }
 
 ##################################################
@@ -51,7 +51,7 @@ POST http://localhost:8080/transaction
 Content-Type: application/json
 
 {
-	"user": "65b96bee7fc2a5cb8e9a7c31"
+	"user": "65bd539c03426b5b68b9188c"
 }
 
 ### Create Transaction
@@ -59,22 +59,30 @@ POST http://localhost:8080/transaction/create
 Content-Type: application/json
 
 {
-	"user": "65b96bee7fc2a5cb8e9a7c31",
-	"movement": "INCOME",
-	"mount": "100000"
-	// "description": "Stolen Money from OXXO",
-	// "date": "2014-9-29"
+	"user": "65bd539c03426b5b68b9188c",
+	"method": "CASH",
+	"movement": "COST",
+	"mount": "2200",
+	"description": "Egreso de dinero"
+	//"date": "2014-9-29"
 }
 
-### Update Transaction  "date": "2024-01-27T01:04:16.073Z"
+//"user": "65bd539c03426b5b68b9188c",
+//"method": "CARD", 					CARD, CASH
+//"movement": "INCOME",					INCOME, COST
+//"mount": "100",
+//"description": "Ingreso de dinero"  	OPCIONAL
+//"date": "2014-9-29" 					OPCIONAL -> YYYY-MM-DD
+
+### Update Transaction
 PUT http://localhost:8080/transaction/update
 Content-Type: application/json
 
 {
-	"id": "65b46fd448a71dcb62529bd8",
-	"movement": "INCOME",
-	//"mount": 100,
-	"description": "Pepsi Actions"
+	"id": "65bd7a3ffc789b1ca9d8ba79",
+	"method": "CASH",
+	"movement": "COST",
+	"mount": "5000"
 }
 
 ### Delete Transactions
@@ -82,6 +90,6 @@ DELETE http://localhost:8080/transaction/delete
 Content-Type: application/json
 
 {
-	"id": "65b9666565b366858dba554e"
+	"id": "65bd7a3ffc789b1ca9d8ba79"
 }
 ##################################################

@@ -32,7 +32,6 @@ export class AuthDatasourceImpl implements AuthDatasource {
 
 			if ( error instanceof CustomError ) throw error;
 			throw CustomError.internalServer();
-		
 		}		
 	}
 	
@@ -55,8 +54,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
 		} catch ( error ) {
 
 			if ( error instanceof CustomError ) throw error;
-			throw CustomError.internalServer();
-		
+			throw CustomError.internalServer();		
 		}
 	}
 }

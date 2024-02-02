@@ -2,6 +2,7 @@ import { TransactionRepository } from '../../repositories/transaction.repository
 
 interface TransactionDelete {
 	user: string, 
+	method: string, 
 	movement: string, 
 	mount: number, 
 	description: string, 
@@ -21,13 +22,6 @@ export class DeleteTransaction implements DeleteTransactionUseCase {
 	async execute( transactionID: string ): Promise< TransactionDelete > {
 
 		const transaction = await this.transactionRepository.delete( transactionID );
-
-		return {
-			user: transaction.user,
-			movement: transaction.movement,
-			mount: transaction.mount,
-			description: transaction.description,
-			date: transaction.date,
-		}
+		return { ...transaction }
 	}
 }

@@ -2,11 +2,9 @@ import { AuthRepository } from '../../repositories/auth.repository';
 import { RegisterUserDTO } from '../../dto/register-user.dto';
 
 interface UserReg {
-	user: {
-		id: string,
-		name: string,
-		email: string,
-	}
+	id: string,
+	name: string,
+	email: string,
 }
 
 interface RegisterUserUseCase {
@@ -24,11 +22,9 @@ export class RegisterUser implements RegisterUserUseCase {
 		const user = await this.authRepository.register( registerUserDTO );
 
 		return {
-			user: {
-				id: user.id,
-				name: user.name,
-				email: user.email,
-			}
+			id: user.id,
+			name: user.name,
+			email: user.email,
 		}
 	}
 }

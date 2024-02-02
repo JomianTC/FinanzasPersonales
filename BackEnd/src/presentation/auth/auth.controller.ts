@@ -12,7 +12,7 @@ export class AuthController {
 	private handleError = ( error: unknown, res: Response ) => {
 
 		if ( error instanceof CustomError )
-		return res.status( error.statusCode ).json({ error: error.message })
+			return res.status( error.statusCode ).json( error.message )
 
 		console.log( error );
 		return res.status( 500 ).json({ error: "Internal Server Error" });
@@ -22,7 +22,7 @@ export class AuthController {
 
 		const [ loginErrorDTO, loginUserDTO ] = LoginUserDTO.create( req.body );
 
-		if ( loginErrorDTO ) return res.status( 400 ).json({ loginErrorDTO });
+		if ( loginErrorDTO ) return res.status( 400 ).json( loginErrorDTO );
 
 		new LoginUser( this.authRepository )
 		.execute( loginUserDTO! )
@@ -36,11 +36,11 @@ export class AuthController {
 		
 		const [ registerErrorDTO, registerUserDTO ] = RegisterUserDTO.create( req.body );
 		
-		if ( registerErrorDTO ) return res.status( 400 ).json({ registerErrorDTO });
+		if ( registerErrorDTO ) return res.status( 400 ).json( registerErrorDTO );
 
 		new RegisterUser( this.authRepository )
 		.execute( registerUserDTO! )
-		.then( data => res.json( data ) )
+		.then( _data => res.json( "OK" ) )
 		.catch( error => this.handleError( error, res ) );
 
 		return;

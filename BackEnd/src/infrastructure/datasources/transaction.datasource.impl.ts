@@ -31,12 +31,12 @@ export class TransactionDatasourceImpl implements TransactionDatasource {
 
 	async create( createTransactionDTO: CreateTransactionDTO ): Promise<TransactionEntity> {
 		
-		const { user, movement, mount, description, date } = createTransactionDTO;
+		const transactionData = createTransactionDTO;
 
 		try {
 
-			const transaction = await TransactionModel.create({ user, movement, mount, description, date });
-			if ( !transaction ) throw CustomError.internalServer( "Error creating transaction" );
+			const transaction = await TransactionModel.create( transactionData );
+			if ( !transaction ) throw CustomError.badRequest( "Error creating transaction" );
 			await transaction.save();
 
 			return TransactionMapper.transactionEntityFromObject( transaction );
@@ -49,14 +49,14 @@ export class TransactionDatasourceImpl implements TransactionDatasource {
 
 	async update( updateTransactionDTO: UpdateTransactionDTO ): Promise<TransactionEntity> {
 		
-		const { id, movement, mount, description, date } = updateTransactionDTO;
+		const { id, ...transactionData } = updateTransactionDTO;
 		
 		try {
 
 			const updateTransaction = await TransactionModel.findById( id );
-			if ( !updateTransaction ) throw CustomError.notFound( "Transaction not found" );
+			if ( !updateTransaction ) throw CustomError.badRequest( "Transaction not found" );
 			
-			await TransactionModel.findByIdAndUpdate( id, { movement, mount, description, date });
+			await TransactionModel.findByIdAndUpdate( id, transactionData );
 
 			const newTransaction = await TransactionModel.findById( id );
 
@@ -74,7 +74,7 @@ export class TransactionDatasourceImpl implements TransactionDatasource {
 		try {
 
 			const deletedTransaction = await TransactionModel.findByIdAndDelete( transactionId );
-			if ( !deletedTransaction ) throw CustomError.notFound( "Transaction not found" );
+			if ( !deletedTransaction ) throw CustomError.badRequest( "Transaction not found" );
 			
 			return TransactionMapper.transactionEntityFromObject( deletedTransaction );
 		

@@ -5,6 +5,11 @@ const transactionSchema = new Schema({
 	user: {
 		type: String,
 	},
+	method: {
+		type: String,
+		required: true,
+		enum: [ "CASH", "CARD" ],
+	},
 	movement: {
 		type: String,
 		required: true,

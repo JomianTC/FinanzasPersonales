@@ -3,6 +3,7 @@ import { TransactionRepository } from '../../repositories/transaction.repository
 
 interface TransactionCreate {
 	user: string, 
+	method: string, 
 	movement: string, 
 	mount: number, 
 	description: string, 
@@ -22,13 +23,6 @@ export class CreateTransaction implements CreateTransactionUseCase {
 	async execute( createTransactionDTO: CreateTransactionDTO ): Promise<TransactionCreate> {
 
 		const transaction = await this.transactionRepository.create( createTransactionDTO );
-
-		return {
-			user: transaction.user,
-			movement: transaction.movement,
-			mount: transaction.mount,
-			description: transaction.description,
-			date: transaction.date,
-		}
+		return { ...transaction }
 	}
 }

@@ -10,7 +10,7 @@ export class UsersController {
 	private handleError = ( error: unknown, res: Response ) => {
 
 		if ( error instanceof CustomError )
-		return res.status( error.statusCode ).json({ error: error.message })
+			return res.status( error.statusCode ).json( error.message )
 
 		console.log( error );
 		return res.status( 500 ).json({ error: "Internal Server Error" });
@@ -23,7 +23,7 @@ export class UsersController {
 
 		new UpdateBalance( this.userRepository )
 		.execute( updateUserBalanceDTO! )
-		.then( data => res.json( data ) )
+		.then( _data => res.json( "OK" ) )
 		.catch( error => this.handleError( error, res ) );		
 		
 		return;

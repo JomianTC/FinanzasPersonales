@@ -4,6 +4,7 @@ export class TransactionEntity {
 	constructor(
 		public id: string,
 		public user: string,
+		public method: string,
 		public movement: string,
 		public mount: number,
 		public description: string,
@@ -20,5 +21,9 @@ export class TransactionEntity {
 
 	static get negativeMovements() {
 		return [ "COST" ];
+	}
+
+	static get validMethods() {
+		return [ "CASH", "CARD" ];
 	}
 }

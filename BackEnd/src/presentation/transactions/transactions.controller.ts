@@ -11,7 +11,7 @@ export class TransactionsController {
 	private handleError = ( error: unknown, res: Response ) => {
 
 		if ( error instanceof CustomError )
-		return res.status( error.statusCode ).json({ error: error.message })
+			return res.status( error.statusCode ).json( error.message );
 
 		console.log( error );
 		return res.status( 500 ).json({ error: "Internal Server Error" });
@@ -32,11 +32,11 @@ export class TransactionsController {
 	createTransaction = ( req: Request, res: Response ) => {
 
 		const [ createTransactionError, createTransactionDTO ] = CreateTransactionDTO.create( req.body );
-		if ( createTransactionError ) return res.status( 400 ).json({ createTransactionError });
+		if ( createTransactionError ) return res.status( 400 ).json( createTransactionError );
 
 		new CreateTransaction( this.transactionRepository )
 		.execute( createTransactionDTO! )
-		.then( data => res.json( data ) )
+		.then( _data => res.json( "OK" ) )
 		.catch( error => this.handleError( error, res ) );
 
 		return;
@@ -45,14 +45,12 @@ export class TransactionsController {
 	updateTransactions = ( req: Request, res: Response ) => {
 
 		const [ updateTransactionError, updateTransactionDTO ] = UpdateTransactionDTO.create( req.body );
-		if ( updateTransactionError ) return res.status( 400 ).json({ updateTransactionError });
+		if ( updateTransactionError ) return res.status( 400 ).json( updateTransactionError );
 
 		new UpdateTransaction( this.transactionRepository )
 		.execute( updateTransactionDTO! )
-		.then( data => res.json( data) )
+		.then( _data => res.json( "OK" ) )
 		.catch( error => this.handleError( error, res ) );
-
-		this.transactionRepository.update( updateTransactionDTO! )
 
 		return;
 	}
@@ -63,7 +61,7 @@ export class TransactionsController {
 		
 		new DeleteTransaction( this.transactionRepository )
 		.execute( transactionId )
-		.then( data => res.json( data ) )
+		.then( _data => res.json( "OK" ) )
 		.catch( error => this.handleError( error, res ) );
 	}
 }

@@ -16,4 +16,3 @@ export class ApplicationRoutes {
 		return router;
 	}
 }
-

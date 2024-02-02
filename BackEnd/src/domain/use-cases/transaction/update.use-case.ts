@@ -3,6 +3,7 @@ import { UpdateTransactionDTO } from '../../dto/update-transaction.dto';
 
 interface TransactionUpdate {
 	user: string, 
+	method: string, 
 	movement: string, 
 	mount: number, 
 	description: string, 
@@ -22,13 +23,6 @@ export class UpdateTransaction implements UpdateTransactionUseCase {
 	async execute( updateTransactionDTO: UpdateTransactionDTO ): Promise< TransactionUpdate > {
 
 		const transaction = await this.transactionRepository.update( updateTransactionDTO );
-
-		return {
-			user: transaction.user,
-			movement: transaction.movement,
-			mount: transaction.mount,
-			description: transaction.description,
-			date: transaction.date,
-		}
+		return { ...transaction }
 	}
 }

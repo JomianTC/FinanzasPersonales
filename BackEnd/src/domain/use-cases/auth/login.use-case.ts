@@ -2,12 +2,9 @@ import { LoginUserDTO } from '../../dto/login-user.dto';
 import { AuthRepository } from '../../repositories/auth.repository';
 
 interface UserLog {
-	user: {
-		id: string,
-		name: string,
-		email: string,
-		balance: number,
-	}
+	id: string,
+	email: string,
+	balance: number,
 }
 
 interface LoginUserUseCase {
@@ -25,12 +22,9 @@ export class LoginUser implements LoginUserUseCase {
 		const user = await this.authRepository.login( loginUserDto );
 
 		return {
-			user: {
-				id: user.id,
-				name: user.name,
-				email: user.email,
-				balance: user.balance,
-			}
+			id: user.id,
+			email: user.email,
+			balance: user.balance,
 		}
 	}
 }

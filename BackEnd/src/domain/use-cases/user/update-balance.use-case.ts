@@ -3,7 +3,6 @@ import { UpdateUserBalanceDTO } from '../../dto/update-user-balance.dto';
 
 interface UserBalance {
 	id: string, 
-	name: string, 
 	balance: number, 
 }
 
@@ -23,7 +22,6 @@ export class UpdateBalance implements UpdateUserBalanceUseCase {
 
 		return {
 			id: user.id,
-			name: user.name,
 			balance: user.balance,
 		}
 	}
