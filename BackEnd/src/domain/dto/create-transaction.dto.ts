@@ -12,7 +12,7 @@ export class CreateTransactionDTO {
 
 	static create ( object: {[ key: string ]: any} ): [ string?, CreateTransactionDTO? ]{
 
-		const { user, movement, mount, description = "", date = new Date() } = object;
+		const { user, movement, mount, description = " ", date = new Date() } = object;
 
 		const validMovements = TransactionEntity.validMovements;
 
