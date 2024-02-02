@@ -6,10 +6,24 @@ type CreateTransaction = {
 	date: string;
 }
 
+type UpdateTransaction = {
+	id: string;
+	movement: string;
+	mount: Number;
+	description: string;
+	date: string;
+}
+
 type UserBalance = {
 	userId: String;
 	movement: String;
 	mount: Number;
+}
+
+type RegisterUser = {
+	name: string;
+	email: string;
+	password: string;
 }
 
 export class HttpRequest {
@@ -31,7 +45,20 @@ export class HttpRequest {
 		.catch( error => { throw error });
 	}
 
-	// static async registerUser( id: string ) {}
+	static async registerUser( registerUser: RegisterUser ) {
+
+		return await fetch( "http://localhost:8080/auth/register", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify( registerUser )
+		})
+		.then( response => {
+			if ( !response.ok ) throw response.status;
+			return response.json();
+		})
+		.then( data => { return data; })
+		.catch( error => { throw error });
+	}
 	
 	static async getTransactions( id: string ) {
 
@@ -70,7 +97,20 @@ export class HttpRequest {
 		.catch( error => { throw error });
 	}
 
-	// async updateTransaction( url: string ) {}
+	static async updateTransaction( updateTransaction: UpdateTransaction ) {
+
+		return fetch( "http://localhost:8080/transaction/update", {
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify( updateTransaction )
+		})
+		.then( response => {
+			if ( !response.ok ) throw response.status;
+			return response.json();
+		})
+		.then( data => { return data; })
+		.catch( error => { throw error });
+	}
 
 	static async deleteTransaction( transactionID: string ) {
 

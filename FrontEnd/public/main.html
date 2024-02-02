@@ -51,7 +51,7 @@
 	</table>
 
 	<table id="transactionTable">
-		<h3>Historial</h3>
+		<h3 id="historyTitle">Historial</h3>
 		<tr>
 			<th>Id</th>
 			<th>Movimiento</th>
@@ -70,7 +70,7 @@
 				<h1>Actualizar transaccion</h1>
 				<div>
 					<label>Movimiento</label>
-					<select id="inputMovement" placeholder="Seleccionar">
+					<select id="modalMovement" placeholder="Seleccionar">
 						<option value="" disabled selected hidden>Seleccionar</option>
 						<option value="COST">Egreso</option>
 						<option value="INCOME">Ingreso</option>
@@ -78,17 +78,17 @@
 				</div>
 				<div>
 					<label>Monto</label>
-					<input id="inputMount" type="number" placeholder="Monto" />
+					<input id="modaltMount" type="number" placeholder="Monto" />
 				</div>
 				<div>
 					<label>Descripcion</label>
-					<input id="inputDescription" type="text" placeholder="Descripcion" />
+					<input id="modaltDescription" type="text" placeholder="Descripcion" />
 				</div>
 				<div>
 					<label>Fecha</label>
-					<input id="inputDate" type="date" placeholder="Fecha" />
+					<input id="modaltDate" type="date" placeholder="Fecha" />
 				</div>
-				<button id="inputUpdate" type="submit">Actualizar</button>
+				<button id="modalUpdate">Actualizar</button>
 			</form>
 		</div>
 	</div>

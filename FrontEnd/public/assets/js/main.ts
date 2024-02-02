@@ -1,7 +1,8 @@
 import { HttpRequest } from "./helpers/http-requests";
-import { openModal, createModal } from "./helpers/modal-main";
+import { openModal, createModal, closeModal } from "./helpers/modal-main";
 import { createDateHttpRequest } from './helpers/create-date';
 import { transactionBubbleSortDate } from "./helpers/sort-transactions-date";
+import { calculateNewBalance } from "./helpers/update-transaction-balance";
 
 type UserLocalStore = { 
 	id: string, 
@@ -12,6 +13,8 @@ type UserLocalStore = {
 const userData: UserLocalStore = JSON.parse( localStorage.getItem( "user" )! );
 
 const transactionTableEventListener = ( transactionTable: HTMLTableElement ) => {
+
+	const historyTitle = document.querySelector( "#historyTitle" ) as HTMLHeadingElement;
 
 	transactionTable.addEventListener( "click", async ( event ) => {
 	
@@ -34,8 +37,6 @@ const transactionTableEventListener = ( transactionTable: HTMLTableElement ) => 
 			if ( transactionInfo[ 1 ].textContent === "Egreso" )
 				userBalance.movement = "INCOME";
 
-			console.log( transactionInfo[0].textContent, userBalance );
-
 			try {
 					
 				await HttpRequest.deleteTransaction( transactionInfo[0].textContent! );
@@ -44,20 +45,87 @@ const transactionTableEventListener = ( transactionTable: HTMLTableElement ) => 
 					
 				window.location.reload();
 		
-			} catch ( error ) { alert( "Error al eliminar la transacción" ); }
+			} catch ( error ) { historyTitle.innerText = "Historial - Error al eliminar la transacción"; }
 		}
 
 		if ( target.classList.contains( "btnUpdate" ) ) {
+
+			openModal();
+			
+			const modalMovement = document.querySelector( "#modalMovement" ) as HTMLSelectElement;
+			const modaltMount = document.querySelector( "#modaltMount" ) as HTMLInputElement;
+			const modaltDescription = document.querySelector( "#modaltDescription" ) as HTMLInputElement;
+			const modaltDate = document.querySelector( "#modaltDate" ) as HTMLInputElement;
+			const modalUpdate = document.querySelector( "#modalUpdate" ) as HTMLButtonElement;
+
 			const updateThing = target.closest( "tr" )!
 				.querySelectorAll( "td" );	
 
-			updateThing.forEach( (element) => {
-				console.log(element.textContent);
+			const transactionID = updateThing[0].textContent;
+			const oldMovement = updateThing[1].textContent;
+			const oldMount = Number( updateThing[2].textContent );
+			const oldDescription = updateThing[3].textContent;
+			const oldDate = updateThing[4].textContent;
+
+			if ( oldMovement === "Ingreso" )
+				modalMovement.value = "INCOME";
+			
+			if ( oldMovement === "Egreso" )
+				modalMovement.value = "COST";
+
+			modaltMount.value = oldMount.toString();
+			modaltDescription.value = oldDescription!;
+			modaltDate.value = oldDate!;
+			
+			modalUpdate.addEventListener( "click", async ( event ) => {
+
+				event.preventDefault();
+
+				const balanceInfo = {
+					oldMovement: oldMovement!,
+					NewMovement: modalMovement.value,
+					oldMount: oldMount,
+					newMount: Number( modaltMount.value )
+				}
+
+				if ( balanceInfo.NewMovement === "INCOME" )
+					balanceInfo.NewMovement = "Ingreso";
+				
+				if ( balanceInfo.NewMovement === "COST" )
+					balanceInfo.NewMovement = "Egreso";
+
+				const { movement, mount } = calculateNewBalance( balanceInfo );
+
+				const transaction = {
+					id: transactionID!,
+					movement: modalMovement.value,
+					mount: Number( modaltMount.value ),
+					description: modaltDescription.value,
+					date: createDateHttpRequest( modaltDate.value + "T00:00:00" )
+				};
+
+				const newBalance = {
+					userId: userData.id, 
+					movement,
+					mount
+				}
+
+				try {
+			
+					await HttpRequest.updateTransaction( transaction );
+					
+					if ( !(movement === "INCOME" && mount === 0) ){
+						const userNewBalance = await HttpRequest.updateUserBalance( newBalance );
+						localStorage.setItem( "user", JSON.stringify( userNewBalance ) );
+					}
+					
+					window.location.reload();
+		
+				} catch ( error ) { 
+					closeModal();
+					historyTitle.innerText = "Historial - Error al actualizar la transacción";
+				}
 			});
-
-			openModal();
-
-			// window.location.reload();
 		}
 	});
 };
@@ -81,13 +149,25 @@ const createTransactionLogic = async() => {
 		// "description": "Salary"
 		// "date": "2024-09-29 <-> año-mes-dia "
 
+		if ( movementSelector.value === "" )
+			return tranTittle.innerText = "Agregar - Seleccione un movimiento";
+
+		if ( mountInput.value === "" )
+			return tranTittle.innerText = "Agregar - Ingrese un monto valido";
+
+		if ( dateInput.value === "" )
+			dateInput.value = new Date().toLocaleDateString();
+
 		const transaction = {
 			user: userData.id,
 			movement: movementSelector.value,
 			mount: Number( mountInput.value ),
 			description: descriptionInput.value,
-			date: createDateHttpRequest( dateInput.value )
+			date: createDateHttpRequest( dateInput.value + "T00:00:00" )
 		};
+
+		if ( dateInput.value === "" )
+			transaction.date = createDateHttpRequest( new Date().toLocaleDateString() );
 
 		const userBalance = {
 			userId: userData.id, 
@@ -103,7 +183,7 @@ const createTransactionLogic = async() => {
 			
 			window.location.reload();
 
-		} catch (error) { tranTittle.innerText += "Error al crear la transacción"; }
+		} catch (error) { tranTittle.innerText = "Agregar - Error al crear la transacción"; }
 	});
 };
 
