@@ -23,7 +23,7 @@ export class UsersController {
 
 		new UpdateBalance( this.userRepository )
 		.execute( updateUserBalanceDTO! )
-		.then( _data => res.json( "OK" ) )
+		.then( data => res.json( data ) )
 		.catch( error => this.handleError( error, res ) );		
 		
 		return;

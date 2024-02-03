@@ -3,7 +3,7 @@ import { AuthRepository } from '../../repositories/auth.repository';
 
 interface UserLog {
 	id: string,
-	email: string,
+	name: string,
 	balance: number,
 }
 
@@ -23,7 +23,7 @@ export class LoginUser implements LoginUserUseCase {
 
 		return {
 			id: user.id,
-			email: user.email,
+			name: user.name,
 			balance: user.balance,
 		}
 	}

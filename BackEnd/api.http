@@ -37,7 +37,7 @@ PUT http://localhost:8080/user/updateBalance
 Content-Type: application/json
 
 {
-	"userId": "65bd539c03426b5b68b9188c",
+	"userId": "65bd8027bceedd7b375084c2",
 	"movement": "INCOME",
 	"mount": "100"
 }
@@ -51,7 +51,7 @@ POST http://localhost:8080/transaction
 Content-Type: application/json
 
 {
-	"user": "65bd539c03426b5b68b9188c"
+	"user": "65bd8027bceedd7b375084c2"
 }
 
 ### Create Transaction
@@ -59,7 +59,7 @@ POST http://localhost:8080/transaction/create
 Content-Type: application/json
 
 {
-	"user": "65bd539c03426b5b68b9188c",
+	"user": "65bd8027bceedd7b375084c2",
 	"method": "CASH",
 	"movement": "COST",
 	"mount": "2200",
@@ -90,6 +90,6 @@ DELETE http://localhost:8080/transaction/delete
 Content-Type: application/json
 
 {
-	"id": "65bd7a3ffc789b1ca9d8ba79"
+	"id": "65bd89de2b41157faebbb940"
 }
 ##################################################
