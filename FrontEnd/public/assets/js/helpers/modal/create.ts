@@ -1,8 +1,8 @@
-const updateTransactionModal = document.querySelector( "#updateModal" ) as HTMLButtonElement;
+const updateTransactionModal = document.querySelector( "#updateTransactionModal" ) as HTMLButtonElement;
 const btnCloseUpdateModal = document.querySelector( ".closeModal" ) as HTMLSpanElement;
 
 export const createModal = () => {
-	window.addEventListener( "click", (event) => {
+	window.addEventListener( "click", ( event ) => {
 		if ( event.target === updateTransactionModal )
 			closeModal();
 	});

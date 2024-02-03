@@ -18,9 +18,11 @@
 		</b>
 	</h1>
 
+	<!-- Tabla para agregar una nueva transaccion -->
 	<table>
 		<h3 id="addTransactionTittle">Agregar</h3>
 		<tr>
+			<th>Metodo</th>
 			<th>Movimiento</th>
 			<th>Monto</th>
 			<th>Descripcion</th>
@@ -29,48 +31,89 @@
 		</tr>
 		<tr>
 			<td>
-				<select id="movement" placeholder="Seleccionar">
+				<select id="addMethodInput">
+					<option value="" disabled selected hidden>Seleccionar</option>
+					<option value="CASH">Efectivo</option>
+					<option value="CARD">Tarjeta</option>
+				</select>
+			</td>
+			<td>
+				<select id="addMovementInput" placeholder="Seleccionar">
 					<option value="" disabled selected hidden>Seleccionar</option>
 					<option value="COST">Egreso</option>
 					<option value="INCOME">Ingreso</option>
 				</select>
 			</td>
 			<td>
-				<input id="mount" type="number" placeholder="Monto" />
+				<input id="addMountInput" type="number" placeholder="Monto" />
 			</td>
 			<td>
-				<input id="description" type="text" placeholder="Descripcion" />
+				<input id="addDescriptionInput" type="text" placeholder="Descripcion" />
 			</td>
 			<td>
-				<input id="date" type="date" placeholder="Fecha" />
+				<input id="addDateInput" type="date" placeholder="Fecha" />
 			</td>
 			<td>
-				<button id="addTransaction">Agregar</button>
+				<button id="addTransactionBtn">Agregar</button>
 			</td>
 		</tr>
 	</table>
 
-	<table id="transactionTable">
+	<!-- Div que contiene las tablas donde se muestra la info -->
+	<div>
 		<h3 id="historyTitle">Historial</h3>
-		<tr>
-			<th>Id</th>
-			<th>Movimiento</th>
-			<th>Monto</th>
-			<th>Descripcion</th>
-			<th>Fecha</th>
-			<th>Actualizar</th>
-			<th>Eliminar</th>
-		</tr>
-	</table>
+		<!-- Seccion con la tabla para las transacciones de efectivo -->
+		<div>
+			<table id="cashTransactionTable">
+				<h3>Efectivo</h3>
+				<tr>
+					<th>Id</th>
+					<th>Metodo</th>
+					<th>Movimiento</th>
+					<th>Monto</th>
+					<th>Descripcion</th>
+					<th>Fecha</th>
+					<th>Actualizar</th>
+					<th>Eliminar</th>
+				</tr>
+			</table>
+		</div>
+<hr>
+		<!-- Seccion con la tabla para las transacciones de tarjeta -->
+		<div>
+			<table id="cardTransactionTable">
+				<h3>Tarjeta</h3>
+				<tr>
+					<th>Id</th>
+					<th>Metodo</th>
+					<th>Movimiento</th>
+					<th>Monto</th>
+					<th>Descripcion</th>
+					<th>Fecha</th>
+					<th>Actualizar</th>
+					<th>Eliminar</th>
+				</tr>
+			</table>
+		</div>
+	</div>
 
-	<div id="updateModal" class="modal">
+	<!-- Modal para actualizar la informacion de una transaccion cualquiera -->
+	<div id="updateTransactionModal" class="modal">
 		<div class="contentModal">
 			<span class="closeModal">&times;</span>
 			<form id="formInput">
 				<h1>Actualizar transaccion</h1>
 				<div>
+					<label>Metodo</label>
+					<select id="modalMethod">
+						<option value="" disabled selected hidden>Seleccionar</option>
+						<option value="CASH">Efectivo</option>
+						<option value="CARD">Tarjeta</option>
+					</select>
+				</div>
+				<div>
 					<label>Movimiento</label>
-					<select id="modalMovement" placeholder="Seleccionar">
+					<select id="modalMovement">
 						<option value="" disabled selected hidden>Seleccionar</option>
 						<option value="COST">Egreso</option>
 						<option value="INCOME">Ingreso</option>
@@ -78,17 +121,17 @@
 				</div>
 				<div>
 					<label>Monto</label>
-					<input id="modaltMount" type="number" placeholder="Monto" />
+					<input id="modalMount" type="number" placeholder="Monto" />
 				</div>
 				<div>
 					<label>Descripcion</label>
-					<input id="modaltDescription" type="text" placeholder="Descripcion" />
+					<input id="modalDescription" type="text" placeholder="Descripcion" />
 				</div>
 				<div>
 					<label>Fecha</label>
-					<input id="modaltDate" type="date" placeholder="Fecha" />
+					<input id="modalDate" type="date" placeholder="Fecha" />
 				</div>
-				<button id="modalUpdate">Actualizar</button>
+				<button id="updateTransactionModalBtn">Actualizar</button>
 			</form>
 		</div>
 	</div>

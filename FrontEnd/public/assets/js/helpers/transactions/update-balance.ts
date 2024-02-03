@@ -5,12 +5,12 @@ type BalanceInfo = {
 	newMount: number;
 }
 
-type UpdateTransactionBalance = {
+type UpdateUserBalance = {
 	movement: string;
 	mount: number;
 }
 
-export const calculateNewBalance = ( balanceInfo: BalanceInfo ): UpdateTransactionBalance => {
+export const getNewUserBalance = ( balanceInfo: BalanceInfo ): UpdateUserBalance => {
 
 	if ( balanceInfo.oldMovement === balanceInfo.NewMovement )
 		if ( balanceInfo.oldMount === balanceInfo.newMount )

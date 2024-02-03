@@ -5,7 +5,11 @@ import { HttpRequest } from "./helpers/http-requests";
 	const formInput = document.querySelector('#formInput') as HTMLFormElement;
 	const inputEmail = document.querySelector('#inputEmail') as HTMLInputElement;
 	const inputPassword = document.querySelector('#inputPassword') as HTMLInputElement;
+	
 	const inputButton = document.querySelector('#inputButton') as HTMLButtonElement;
+
+	const errorMessage = document.createElement( "p" );
+	formInput.appendChild( errorMessage );
 
 	inputButton.addEventListener( "click", async( event ) => {
 
@@ -16,15 +20,13 @@ import { HttpRequest } from "./helpers/http-requests";
 
 		try {
 
-			const { id, name, balance } =  await HttpRequest.loginUser( email, password );
-			localStorage.setItem( "user", JSON.stringify({ id, name, balance }) );
+			const userInfo =  await HttpRequest.loginUser( email, password );
+			localStorage.setItem( "user", JSON.stringify( userInfo ) );
 			window.location.href = "main.html";
 
-		} catch ( error ) {
-
-			const errorMessage = document.createElement( "p" );
-			errorMessage.textContent = `Usuario o contraseña incorrectos`;
-			formInput.appendChild( errorMessage );
+		} catch ( error ) { 
+			console.log( error );
+			errorMessage.textContent = "Error al iniciar sesión, intente de nuevo.";
 		}
 	});
 })();
