@@ -16,14 +16,16 @@ Esta aplicación tendrá las siguientes funciones, en un futuro puede que se agr
 
 # TO DO
 
-- Agregar JWT
+- Notificación a final de mes
+	- Total gastado a final de mes
 
-- Hacer paginación
+- Refactorización FrontEnd
+	- Mostrar únicamente los últimos 4 dígitos de la id
+	- Eliminar la actualización de la pagina cada que se ejecute una operación CRUD
+
+- Hacer paginación de las transacciones
 
 - Hacerlo una PWA
 	- Hacerla responsiva
 	- Guardar últimos 50 registros
 	- Guardar registros creados sin conexión
-
-- Notificación a final de mes
-	- Total gastado a final de mes
