@@ -6,28 +6,28 @@ export class UserDatasourceImpl implements UserDatasource {
 
 	async updateBalance( updateUserBalanceDTO: UpdateUserBalanceDTO ): Promise<UserEntity> {
 
-		const { userId, movement, mount } = updateUserBalanceDTO;
+		const { user, movement, mount } = updateUserBalanceDTO;
 
 		try {
 
-			let user = await UserModel.findById( userId );
-			if ( !user ) throw CustomError.badRequest( "User dont exist" );
+			let userFound = await UserModel.findById( user );
+			if ( !userFound ) throw CustomError.badRequest( "User dont exist" );
 		
 			if ( TransactionEntity.positiveMovements.includes( movement ) )
-				user = await UserModel.findByIdAndUpdate( 
-					userId, 
-					{ balance: user.balance + Number( mount ) }, 
+				userFound = await UserModel.findByIdAndUpdate( 
+					user, 
+					{ balance: userFound.balance + Number( mount ) }, 
 					{ new: true }
 				);
 				
 			else if ( TransactionEntity.negativeMovements.includes( movement ) )
-				user = await UserModel.findByIdAndUpdate( 
-					userId, 
-					{ balance: user.balance - Number( mount ) }, 
+				userFound = await UserModel.findByIdAndUpdate( 
+					user, 
+					{ balance: userFound.balance - Number( mount ) }, 
 					{ new: true }
 				);
 			
-			return UserMapper.userEntityFromObject( user! );
+			return UserMapper.userEntityFromObject( userFound! );
 
 		} catch ( error ) {
 			

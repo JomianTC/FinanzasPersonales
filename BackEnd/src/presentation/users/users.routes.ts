@@ -1,6 +1,7 @@
 import { Router } from "express"
 import { UsersController } from "./users.controller";
 import { UserDatasourceImpl, UserRepositoryImpl } from "../../infrastructure";
+import { JWTMiddleware } from "../middleware/jwt.middleware";
 
 export class UsersRoutes {
 
@@ -12,7 +13,7 @@ export class UsersRoutes {
 		const repository = new UserRepositoryImpl( datasource );
 		const controller = new UsersController( repository );
 
-		router.put( "/updateBalance", controller.updateBalance );
+		router.put( "/updateBalance", JWTMiddleware.validateJWT, controller.updateBalance );
 
 		return router;
 	}

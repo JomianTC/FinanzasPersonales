@@ -34,10 +34,10 @@ Content-Type: application/json
 
 ### update Balance
 PUT http://localhost:8080/user/updateBalance
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YmQ4MDI3YmNlZWRkN2IzNzUwODRjMiIsIm5hbWUiOiJKb21pYW5UQyIsImJhbGFuY2UiOjI0MDAwLCJpYXQiOjE3MDcxNjM2OTgsImV4cCI6MTcwNzE3NDQ5OH0.AvahXbxckIk6iEAusVn2S6R5rsupjyFiOhtcD15lHj0
 Content-Type: application/json
 
 {
-	"userId": "65bd8027bceedd7b375084c2",
 	"movement": "INCOME",
 	"mount": "100"
 }
@@ -48,18 +48,14 @@ Content-Type: application/json
 
 ### Get Transactions
 POST http://localhost:8080/transaction
-Content-Type: application/json
-
-{
-	"user": "65bd8027bceedd7b375084c2"
-}
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YmQ4MDI3YmNlZWRkN2IzNzUwODRjMiIsIm5hbWUiOiJKb21pYW5UQyIsImJhbGFuY2UiOjI0MDAwLCJpYXQiOjE3MDcxNjM2OTgsImV4cCI6MTcwNzE3NDQ5OH0.AvahXbxckIk6iEAusVn2S6R5rsupjyFiOhtcD15lHj0
 
 ### Create Transaction
 POST http://localhost:8080/transaction/create
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YmQ4MDI3YmNlZWRkN2IzNzUwODRjMiIsIm5hbWUiOiJKb21pYW5UQyIsImJhbGFuY2UiOjI0MDAwLCJpYXQiOjE3MDcxNjM2OTgsImV4cCI6MTcwNzE3NDQ5OH0.AvahXbxckIk6iEAusVn2S6R5rsupjyFiOhtcD15lHj0
 Content-Type: application/json
 
 {
-	"user": "65bd8027bceedd7b375084c2",
 	"method": "CASH",
 	"movement": "COST",
 	"mount": "2200",
@@ -76,20 +72,22 @@ Content-Type: application/json
 
 ### Update Transaction
 PUT http://localhost:8080/transaction/update
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YmQ4MDI3YmNlZWRkN2IzNzUwODRjMiIsIm5hbWUiOiJKb21pYW5UQyIsImJhbGFuY2UiOjI0MDAwLCJpYXQiOjE3MDcxNjM2OTgsImV4cCI6MTcwNzE3NDQ5OH0.AvahXbxckIk6iEAusVn2S6R5rsupjyFiOhtcD15lHj0
 Content-Type: application/json
 
 {
-	"id": "65bd7a3ffc789b1ca9d8ba79",
+	"id": "65c141389cb4336b6bd11b8b",
 	"method": "CASH",
 	"movement": "COST",
-	"mount": "5000"
+	"mount": "500000"
 }
 
 ### Delete Transactions
 DELETE http://localhost:8080/transaction/delete
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YmQ4MDI3YmNlZWRkN2IzNzUwODRjMiIsIm5hbWUiOiJKb21pYW5UQyIsImJhbGFuY2UiOjI0MDAwLCJpYXQiOjE3MDcxNjM2OTgsImV4cCI6MTcwNzE3NDQ5OH0.AvahXbxckIk6iEAusVn2S6R5rsupjyFiOhtcD15lHj0
 Content-Type: application/json
 
 {
-	"id": "65bd89de2b41157faebbb940"
+	"id": "65c141389cb4336b6bd11b8b"
 }
 ##################################################
