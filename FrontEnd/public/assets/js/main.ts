@@ -18,6 +18,16 @@ type UserLocalStore = {
 }
 
 const userData: UserLocalStore = JSON.parse( localStorage.getItem( "user" )! );
+const token: string = JSON.parse( localStorage.getItem( "token" )! );
+
+const handleJWTError = ( error: string ) => {
+	if ( error === "Invalid Token" ){
+		alert( "Su sesión ha expirado" );
+		window.location.href = "./index.html";
+	}
+
+	console.log( error );
+}
 
 const showTransactions = ( transactions: any, transactionTable: HTMLTableElement ) => {
 
@@ -66,13 +76,16 @@ const tableDeleteLogic = async ( historyTitle: HTMLHeadingElement, target: HTMLE
 
 	try {
 					
-		await HttpRequest.deleteTransaction( transactionInfo[0].textContent! );
-		const userNewBalance = await HttpRequest.updateUserBalance( userBalance );
+		await HttpRequest.deleteTransaction( transactionInfo[0].textContent!, token );
+		const userNewBalance = await HttpRequest.updateUserBalance( userBalance, token );
 		localStorage.setItem( "user", JSON.stringify( userNewBalance ) );
 					
 		window.location.reload();
 		
-	} catch ( error ) { historyTitle.innerText = "Historial - Error al eliminar la transacción"; }
+	} catch ( error ) { 
+		handleJWTError( error );
+		historyTitle.innerText = "Historial - Error al eliminar la transacción";
+	}
 }
 
 const tableUpdateLogic = ( historyTitle: HTMLHeadingElement, target: HTMLElement ) => {
@@ -147,10 +160,10 @@ const tableUpdateLogic = ( historyTitle: HTMLHeadingElement, target: HTMLElement
 
 		try {
 	
-			await HttpRequest.updateTransaction( transaction );
+			await HttpRequest.updateTransaction( transaction, token );
 			
 			if ( !( movement === "INCOME" && mount === 0 ) ){
-				const userNewBalance = await HttpRequest.updateUserBalance( newBalance );
+				const userNewBalance = await HttpRequest.updateUserBalance( newBalance, token );
 				localStorage.setItem( "user", JSON.stringify( userNewBalance ) );
 			}
 			
@@ -158,6 +171,7 @@ const tableUpdateLogic = ( historyTitle: HTMLHeadingElement, target: HTMLElement
 
 		} catch ( error ) { 
 			closeModal();
+			handleJWTError( error );
 			historyTitle.innerText = "Historial - Error al actualizar la transacción";
 		}
 	});
@@ -225,14 +239,14 @@ const createTransactionLogic = async() => {
 
 		try {
 			
-			await HttpRequest.createTransaction( transaction );
-			const userNewBalance = await HttpRequest.updateUserBalance( userBalance );
+			await HttpRequest.createTransaction( transaction, token );
+			const userNewBalance = await HttpRequest.updateUserBalance( userBalance, token );
 			localStorage.setItem( "user", JSON.stringify( userNewBalance ) );
 			
 			window.location.reload();
 		} 
 		catch ( error ) {
-			console.log( error ); 
+			handleJWTError( error ); 
 			tranTittle.innerText = "Agregar - Error al crear la transacción";
 		}
 	});
@@ -250,7 +264,7 @@ const createTransactionLogic = async() => {
 
 	try {
 		
-		const userTransactions = await HttpRequest.getTransactions( userData.id );
+		const userTransactions = await HttpRequest.getTransactions( userData.id, token );
 		const userTransactionsSorted = sortTransactionsByDate( userTransactions );
 
 		const cashTransactions = getTransactionsByCash( userTransactionsSorted );
@@ -268,7 +282,7 @@ const createTransactionLogic = async() => {
 	} 
 	catch ( error ) {
 
-		console.log( error );
+		handleJWTError( error );
 		
 		cashTransactionTable.innerHTML += `
 			<tr><td colspan="7" id="tdError" >No existen transacciones</td></tr>`;

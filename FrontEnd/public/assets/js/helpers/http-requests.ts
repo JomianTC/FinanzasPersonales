@@ -26,13 +26,16 @@ type RegisterUser = {
 	password: string;
 }
 
+// const linkDeveloper: string = "http://localhost:8080/";
+const linkDeveloper: string = "https://lp87h1x1-8080.usw3.devtunnels.ms/";
+
 export class HttpRequest {
 
 	constructor() {}
 
 	static async loginUser( email: string, password: string ) {
 		
-		return fetch( "http://localhost:8080/auth/login", {
+		return fetch( linkDeveloper + "auth/login", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ email, password })
@@ -49,7 +52,7 @@ export class HttpRequest {
 
 	static async registerUser( registerUser: RegisterUser ) {
 
-		return await fetch( "http://localhost:8080/auth/register", {
+		return await fetch( linkDeveloper + "auth/register", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify( registerUser )
@@ -64,11 +67,14 @@ export class HttpRequest {
 		.catch( error => { throw error });
 	}
 	
-	static async getTransactions( id: string ) {
+	static async getTransactions( id: string, token: string ) {
 
-		return fetch( "http://localhost:8080/transaction", {
+		return fetch( linkDeveloper + "transaction", {
 			method: "POST",
-			headers: { "Content-Type": "application/json" },
+			headers: { 
+				"Authorization": token,
+				"Content-Type": "application/json"
+			},
 			body: JSON.stringify({ user: id })
 		})
 		.then( async response => {
@@ -81,11 +87,14 @@ export class HttpRequest {
 		.catch( error => { throw error });
 	}
 
-	static async createTransaction( createTransaction: CreateTransaction ) {
+	static async createTransaction( createTransaction: CreateTransaction, token: string ) {
 
-		return fetch( "http://localhost:8080/transaction/create", {
+		return fetch( linkDeveloper + "transaction/create", {
 			method: "POST",
-			headers: { "Content-Type": "application/json" },
+			headers: { 
+				"Authorization": token,
+				"Content-Type": "application/json"
+			},
 			body: JSON.stringify( createTransaction )
 		})
 		.then( async response => {
@@ -98,11 +107,14 @@ export class HttpRequest {
 		.catch( error => { throw error });
 	}
 
-	static async updateTransaction( updateTransaction: UpdateTransaction ) {
+	static async updateTransaction( updateTransaction: UpdateTransaction, token: string ) {
 
-		return fetch( "http://localhost:8080/transaction/update", {
+		return fetch( linkDeveloper + "transaction/update", {
 			method: "PUT",
-			headers: { "Content-Type": "application/json" },
+			headers: { 
+				"Authorization": token,
+				"Content-Type": "application/json"
+			},
 			body: JSON.stringify( updateTransaction )
 		})
 		.then( async response => {
@@ -115,11 +127,14 @@ export class HttpRequest {
 		.catch( error => { throw error });
 	}
 
-	static async deleteTransaction( transactionID: string ) {
+	static async deleteTransaction( transactionID: string, token: string ) {
 
-		return fetch( "http://localhost:8080/transaction/delete", {
+		return fetch( linkDeveloper + "transaction/delete", {
 			method: "DELETE",
-			headers: { "Content-Type": "application/json" },
+			headers: { 
+				"Authorization": token,
+				"Content-Type": "application/json"
+			},
 			body: JSON.stringify({ id: transactionID })
 		})
 		.then( async response => {
@@ -132,11 +147,14 @@ export class HttpRequest {
 		.catch( error => { throw error });
 	}
 
-	static async updateUserBalance( userBalance: UserBalance ) {
+	static async updateUserBalance( userBalance: UserBalance, token: string ) {
 
-		return fetch( "http://localhost:8080/user/updateBalance", {
+		return fetch( linkDeveloper + "user/updateBalance", {
 			method: "PUT",
-			headers: { "Content-Type": "application/json" },
+			headers: { 
+				"Authorization": token,
+				"Content-Type": "application/json"
+			},
 			body: JSON.stringify( userBalance )
 		})
 		.then( async response => {

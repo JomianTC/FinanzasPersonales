@@ -20,8 +20,13 @@ import { HttpRequest } from "./helpers/http-requests";
 
 		try {
 
-			const userInfo =  await HttpRequest.loginUser( email, password );
-			localStorage.setItem( "user", JSON.stringify( userInfo ) );
+			const { token, user } =  await HttpRequest.loginUser( email, password );
+
+			if ( !token ) throw "No se encontro el token";
+			if ( !user ) throw "Informacion del usuario no encontrada";
+
+			localStorage.setItem( "token", JSON.stringify( token ) );
+			localStorage.setItem( "user", JSON.stringify({ name: user.name, balance: user.balance }) );
 			window.location.href = "main.html";
 
 		} catch ( error ) { 
