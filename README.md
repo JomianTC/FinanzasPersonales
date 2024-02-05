@@ -18,6 +18,8 @@ Esta aplicación tendrá las siguientes funciones, en un futuro puede que se agr
 
 - Agregar JWT
 
+- Hacer paginación
+
 - Hacerlo una PWA
 	- Hacerla responsiva
 	- Guardar últimos 50 registros
