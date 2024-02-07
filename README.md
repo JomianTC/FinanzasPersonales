@@ -16,14 +16,16 @@ Esta aplicación tendrá las siguientes funciones, en un futuro puede que se agr
 
 # TO DO
 
+- Devolver el total de transacciones
+	- El total de transacciones CASH
+	- El total de transacciones CARD
+
 - Notificación a final de mes
 	- Total gastado a final de mes
 
 - Refactorización FrontEnd
 	- Mostrar únicamente los últimos 4 dígitos de la id
 	- Eliminar la actualización de la pagina cada que se ejecute una operación CRUD
-
-- Hacer paginación de las transacciones
 
 - Hacerlo una PWA
 	- Hacerla responsiva
