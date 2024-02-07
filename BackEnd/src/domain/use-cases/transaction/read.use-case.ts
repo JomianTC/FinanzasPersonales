@@ -1,4 +1,5 @@
 import { TransactionRepository } from '../../repositories/transaction.repository';
+import { PaginationDTO } from '../../dto/pagination.dto';
 
 interface transaction {
 	id: string,
@@ -9,10 +10,10 @@ interface transaction {
 	date: Date, 
 }
 
-type TransactionsUserId = transaction[]
+type TransactionsUserId = transaction[];
 
 interface ReadTransactionUseCase {
-	execute( transactionId: string ): Promise< TransactionsUserId >;
+	execute( transactionId: string, paginationDTO: PaginationDTO ): Promise< TransactionsUserId >;
 }
 
 export class ReadTransaction implements ReadTransactionUseCase{
@@ -21,9 +22,9 @@ export class ReadTransaction implements ReadTransactionUseCase{
 		private readonly transactionRepository: TransactionRepository,
 	){}
 
-	async execute(transactionId: string): Promise<TransactionsUserId> {
+	async execute( transactionId: string, paginationDTO: PaginationDTO ): Promise<TransactionsUserId> {
 
-		const userTransactions = await this.transactionRepository.read( transactionId );
-		return userTransactions;
+		const transactions = await this.transactionRepository.read( transactionId, paginationDTO );
+		return transactions;
 	}
 }

@@ -1,22 +1,38 @@
 import { TransactionModel } from '../../data/mongo';
-import { TransactionEntity, CreateTransactionDTO, UpdateTransactionDTO, CustomError, TransactionDatasource } from '../../domain';
+import { TransactionEntity, CreateTransactionDTO, UpdateTransactionDTO, CustomError, TransactionDatasource, PaginationDTO } from '../../domain';
 import { TransactionMapper } from '../mappers/transaction-entity.mapper';
 
 export class TransactionDatasourceImpl implements TransactionDatasource {
 
 	constructor(){}
 
-	async read( userID: string ): Promise<TransactionEntity[]> {
+	async read( userID: string, paginationDTO: PaginationDTO ): Promise< TransactionEntity[] > {
 		
 		try {
 
-			const transactions = await TransactionModel.find({ user: userID });
-			if ( !transactions || transactions.length === 0 )
+			const [ transactionsCash, transactionsCard ] = await Promise.all([
+				await TransactionModel.find({ user: userID })
+				.skip( ( paginationDTO.page - 1 ) * paginationDTO.limit )
+				.limit( paginationDTO.limit )
+				.sort({ date: -1 })
+				.where( "method" ).equals( "CASH" ),
+				await TransactionModel.find({ user: userID })
+				.skip( ( paginationDTO.page - 1 ) * paginationDTO.limit )
+				.limit( paginationDTO.limit )
+				.sort({ date: -1 })
+				.where( "method" ).equals( "CARD" )
+			]);
+
+			if ( !transactionsCash || !transactionsCard )
 				throw CustomError.badRequest( "Transactions not found" );
 
 			let userTransactions: TransactionEntity[] = [];
 			
-			transactions.forEach( transaction => {
+			transactionsCash.forEach( transaction => {
+				userTransactions.push( TransactionMapper.transactionEntityFromObject( transaction ) ); 
+			});
+
+			transactionsCard.forEach( transaction => {
 				userTransactions.push( TransactionMapper.transactionEntityFromObject( transaction ) ); 
 			});
 			

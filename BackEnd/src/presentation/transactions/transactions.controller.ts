@@ -1,6 +1,15 @@
 import { Request, Response } from "express";
-import { CreateTransaction, CreateTransactionDTO, CustomError, DeleteTransaction, ReadTransaction, TransactionRepository, UpdateTransaction,  } from "../../domain";
-import { UpdateTransactionDTO } from '../../domain/dto/update-transaction.dto';
+import { 
+	CreateTransaction, 
+	CreateTransactionDTO, 
+	CustomError, 
+	DeleteTransaction, 
+	PaginationDTO, 
+	ReadTransaction, 
+	TransactionRepository, 
+	UpdateTransaction, 
+	UpdateTransactionDTO
+} from "../../domain";
 
 export class TransactionsController {
 
@@ -21,8 +30,11 @@ export class TransactionsController {
 
 		const userId = req.body.user;
 
+		const [ paginationError, paginationDTO ] = PaginationDTO.create( req.query );
+		if ( paginationError ) return res.status( 400 ).json( paginationError );
+
 		new ReadTransaction( this.transactionRepository )
-		.execute( userId )
+		.execute( userId, paginationDTO! )
 		.then( data => res.json( data ) )
 		.catch( error => this.handleError( error, res ) );
 

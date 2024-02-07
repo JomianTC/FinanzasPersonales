@@ -1,4 +1,4 @@
-import { TransactionEntity, CreateTransactionDTO, UpdateTransactionDTO, TransactionRepository, TransactionDatasource } from '../../domain';
+import { TransactionEntity, CreateTransactionDTO, UpdateTransactionDTO, TransactionRepository, TransactionDatasource, PaginationDTO } from '../../domain';
 
 export class TransactionRepositoryImpl implements TransactionRepository {
 
@@ -6,8 +6,8 @@ export class TransactionRepositoryImpl implements TransactionRepository {
 		private readonly transactionDatasource: TransactionDatasource,
 	){}
 
-	read( userID: string ): Promise< TransactionEntity[] > {
-		return this.transactionDatasource.read( userID );
+	read( userID: string, paginationDTO: PaginationDTO ): Promise< TransactionEntity[] > {
+		return this.transactionDatasource.read( userID, paginationDTO );
 	}
 
 	create( createTransactionDTO: CreateTransactionDTO ): Promise< TransactionEntity > {

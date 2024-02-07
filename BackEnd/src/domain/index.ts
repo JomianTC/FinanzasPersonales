@@ -16,6 +16,8 @@ export * from "./dto/update-user-balance.dto";
 export * from "./dto/create-transaction.dto";
 export * from "./dto/update-transaction.dto";
 
+export * from "./dto/pagination.dto";
+
 export * from "./entities/user.entity";
 export * from "./entities/transaction.entity";
 
