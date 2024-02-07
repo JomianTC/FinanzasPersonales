@@ -20,6 +20,28 @@ type UserLocalStore = {
 const userData: UserLocalStore = JSON.parse( localStorage.getItem( "user" )! );
 const token: string = JSON.parse( localStorage.getItem( "token" )! );
 
+let cashTransactions: any;
+let cardTransactions: any;
+let totalCashTransactions: number = 102;
+let totalCardTransactions: number = 100;
+let limit: number = 20;
+
+const prevCashBtn = document.querySelector( "#prevCashBtn" ) as HTMLButtonElement;
+const nextCashBtn = document.querySelector( "#nextCashBtn" ) as HTMLButtonElement;
+const pageCashCounter = document.querySelector( "#pageCashCounter" ) as HTMLSpanElement;
+const pageCashMax = document.querySelector( "#pageCashMax" ) as HTMLSpanElement;
+
+const prevCardBtn = document.querySelector( "#prevCardBtn" ) as HTMLButtonElement;
+const nextCardBtn = document.querySelector( "#nextCardBtn" ) as HTMLButtonElement;
+const pageCardCounter = document.querySelector( "#pageCardCounter" ) as HTMLSpanElement;
+const pageCardMax = document.querySelector( "#pageCardMax" ) as HTMLSpanElement;
+
+let cashTransactionTable = document.querySelector( "#cashTransactionTable" ) as HTMLTableElement;
+let cardTransactionTable = document.querySelector( "#cardTransactionTable" ) as HTMLTableElement;
+
+const cashTransactionTableOriginal = cashTransactionTable.innerHTML;
+const cardTransactionTableOriginal = cardTransactionTable.innerHTML;
+
 const handleJWTError = ( error: string ) => {
 	if ( error === "Invalid Token" ){
 		alert( "Su sesión ha expirado" );
@@ -220,7 +242,6 @@ const createTransactionLogic = async() => {
 			dateInput.value = new Date().toLocaleDateString();
 
 		const transaction = {
-			user: userData.id,
 			method: methodSelector.value,
 			movement: movementSelector.value,
 			mount: Number( mountInput.value ),
@@ -232,7 +253,6 @@ const createTransactionLogic = async() => {
 			transaction.date = createDateHttpRequest( new Date().toLocaleDateString() );
 
 		const userBalance = {
-			userId: userData.id, 
 			movement: movementSelector.value,
 			mount: Number( mountInput.value )
 		}
@@ -252,29 +272,36 @@ const createTransactionLogic = async() => {
 	});
 };
 
-( async () => {
-
-	const userH1 = document.querySelector( "#userH1" ) as HTMLHeadingElement;
-	userH1.innerText = `${ userData.name }\nTu balance actual es: ${ userData.balance }`;
-
-	const cashTransactionTable = document.querySelector( "#cashTransactionTable" ) as HTMLTableElement;
-	const cardTransactionTable = document.querySelector( "#cardTransactionTable" ) as HTMLTableElement;
-
-	createTransactionLogic();
+const displayCashTransactions = async ( cashPage: number = 1 ) => {
 
 	try {
+
+		const transactions = await HttpRequest.getTransactions( userData.id, token, cashPage, limit );
+
+		cashTransactions = getTransactionsByCash( transactions );
 		
-		const userTransactions = await HttpRequest.getTransactions( userData.id, token );
-		const userTransactionsSorted = sortTransactionsByDate( userTransactions );
-
-		const cashTransactions = getTransactionsByCash( userTransactionsSorted );
-		const cardTransactions = getTransactionsByCard( userTransactionsSorted );
-
 		if ( cashTransactions.length === 0 )
 			cashTransactionTable.innerHTML += `
 				<tr><td colspan="7" id="tdError" >No existen transacciones</td></tr>`;
 		else showTransactions( cashTransactions, cashTransactionTable );
+	} 
+	catch ( error ) {
 
+		handleJWTError( error );
+		
+		cashTransactionTable.innerHTML += `
+			<tr><td colspan="7" id="tdError" >No existen transacciones</td></tr>`;
+	}
+};
+
+const displayCardTransactions = async ( cardPage: number = 1 ) => {
+
+	try {
+
+		const transactions = await HttpRequest.getTransactions( userData.id, token, cardPage, limit );
+
+		cardTransactions = getTransactionsByCard( transactions );
+		
 		if ( cardTransactions.length === 0 )
 			cardTransactionTable.innerHTML += `
 				<tr><td colspan="7" id="tdError" >No existen transacciones</td></tr>`;
@@ -284,15 +311,183 @@ const createTransactionLogic = async() => {
 
 		handleJWTError( error );
 		
-		cashTransactionTable.innerHTML += `
-			<tr><td colspan="7" id="tdError" >No existen transacciones</td></tr>`;
-
 		cardTransactionTable.innerHTML += `
 			<tr><td colspan="7" id="tdError" >No existen transacciones</td></tr>`;
 	}
+};
 
+const createLimitLogic = () => {
+
+	const pagination = document.querySelector( "#numRegistros" ) as HTMLDivElement;
+
+	pagination.addEventListener( "change", ( event ) => {
+
+		const selectedValue = event.target as HTMLSelectElement;
+		limit = Number( selectedValue.value );
+
+		cashTransactionTable.innerHTML = cashTransactionTableOriginal;
+		cardTransactionTable.innerHTML = cardTransactionTableOriginal;
+
+		pageCardCounter.innerText = "1";
+		pageCashCounter.innerText = "1";
+
+		if ( totalCashTransactions % limit === 0 )
+			pageCashMax.innerText = ` - ${ totalCashTransactions/limit } `;
+		else
+			pageCashMax.innerText = ` - ${ Math.floor( totalCashTransactions/limit ) + 1 } `;
+
+		if ( totalCardTransactions % limit === 0 )
+			pageCardMax.innerText = ` - ${ totalCardTransactions/limit } `;
+		else
+			pageCardMax.innerText = ` - ${ Math.floor( totalCardTransactions/limit ) + 1 } `;
+
+		displayCashTransactions();
+		displayCardTransactions();
+	});
+};
+
+const createPageLogic = () => {
+
+	prevCashBtn.addEventListener( "click", () => {
+
+		const pageCash = Number( pageCashCounter.innerText );
+
+		if ( pageCash === 1 ) return;
+
+		pageCashCounter.innerText = ( pageCash - 1 ).toString();
+
+		cashTransactionTable.innerHTML = cashTransactionTableOriginal;
+		displayCashTransactions( pageCash - 1 );
+	});
+
+	nextCashBtn.addEventListener( "click", () => {
+
+		const pageCash = Number( pageCashCounter.innerText );
+
+		if ( cashTransactions.length < limit ) return;
+
+		pageCashCounter.innerText = ( pageCash + 1 ).toString();
+
+		cashTransactionTable.innerHTML = cashTransactionTableOriginal;
+		displayCashTransactions( pageCash + 1 );
+	});
+
+	prevCardBtn.addEventListener( "click", () => {
+
+		const pageCard = Number( pageCardCounter.innerText );
+
+		if ( pageCard === 1 ) return;
+
+		pageCardCounter.innerText = ( pageCard - 1 ).toString();
+
+		cardTransactionTable.innerHTML = cardTransactionTableOriginal;
+		displayCashTransactions( pageCard - 1 );
+	});
+
+	nextCardBtn.addEventListener( "click", () => {
+
+		const pageCard = Number( pageCardCounter.innerText );
+
+		if ( cardTransactions.length < limit ) return;
+
+		pageCardCounter.innerText = ( pageCard + 1 ).toString();
+
+		cardTransactionTable.innerHTML = cardTransactionTableOriginal;
+		displayCardTransactions( pageCard + 1 );
+	});
+};
+
+// Funcion que nos crea registros aleatorios
+// const implosion = async () => {
+
+// 	try {
+
+// 		type TransactionImplosion = {
+// 			method: string;
+// 			movement: string;
+// 			mount: number;
+// 			description: string;
+// 			date: string;
+// 		}
+
+// 		const transactionS: TransactionImplosion[] = [];
+
+// 		for (let i = 0; i < 100; i++) {
+// 			const method = Math.random() < 0.5 ? 'CASH' : 'CARD';
+// 			const movement = Math.random() < 0.5 ? 'COST' : 'INCOME';
+// 			const mount = Math.floor(Math.random() * 5000) + 100; // Número aleatorio entre 100 y 5099
+// 			const description = `Transacción ${i + 100}`;
+// 			// const date = createDateHttpRequest( new Date().toLocaleDateString() );
+
+// 			const randomMonth = Math.floor(Math.random() * 12); // Mes aleatorio entre 0 y 11
+// 			const randomDay = Math.floor(Math.random() * 31) + 1; // Día aleatorio entre 1 y 31
+
+// 			const date = new Date( 2023, randomMonth, randomDay );
+
+// 			const year = date.getFullYear();
+// 			const month = date.getMonth() + 1;
+// 			const day = date.getDate();
+		
+// 			if ( month < 10 && day < 10 ){
+// 				transactionS.push({ method, movement, mount, description, date: `${year}-0${month}-0${day}` });
+// 				continue;
+// 			} 
+// 			if ( month < 10 ){
+// 				transactionS.push({ method, movement, mount, description, date: `${year}-0${month}-${day}` });
+// 				continue;
+// 			} 
+// 			if ( day < 10 ){
+// 				transactionS.push({ method, movement, mount, description, date: `${year}-${month}-0${day}` });
+// 				continue;
+// 			} 
+		
+// 			transactionS.push({ method, movement, mount, description, date: `${year}-${month}-${day}` });
+// 		}
+
+// 		transactionS.forEach( async ( transaction ) => {
+
+// 			await HttpRequest.createTransaction( transaction, token );
+// 			const userNewBalance = await HttpRequest.updateUserBalance({
+// 					movement: transaction.movement,
+// 					mount: transaction.mount
+// 				},
+// 				token 
+// 			);
+// 			localStorage.setItem( "user", JSON.stringify( userNewBalance ) );
+// 		});
+		
+// 	} catch (error) {
+// 		console.log({ error });
+// 	}
+// }
+
+( async () => {
+
+	const userH1 = document.querySelector( "#userH1" ) as HTMLHeadingElement;
+	userH1.innerText = `${ userData.name }\nTu balance actual es: ${ userData.balance }`;
+
+	if ( totalCashTransactions % limit === 0 )
+		pageCashMax.innerText = ` - ${ totalCashTransactions/limit } `;
+	else
+		pageCashMax.innerText = ` - ${ Math.floor( totalCashTransactions/limit ) + 1 } `;
+
+	if ( totalCardTransactions % limit === 0 )
+		pageCardMax.innerText = ` - ${ totalCardTransactions/limit } `;
+	else
+		pageCardMax.innerText = ` - ${ Math.floor( totalCardTransactions/limit ) + 1} `;
+	
+	createTransactionLogic();
+	createLimitLogic();
+
+	displayCashTransactions();
+	displayCardTransactions();
+	
 	createModal();
 	
 	transactionTableEventListener( cardTransactionTable );
 	transactionTableEventListener( cashTransactionTable );
+	
+	createPageLogic();
+	// await implosion();
+
 })();

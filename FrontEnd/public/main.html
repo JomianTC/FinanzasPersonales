@@ -62,6 +62,14 @@
 	<!-- Div que contiene las tablas donde se muestra la info -->
 	<div>
 		<h3 id="historyTitle">Historial</h3>
+		<label>Registros</label>
+		<select id="numRegistros">
+			<option value="10">10</option>
+			<option selected value="20">20</option>
+			<option value="30">30</option>
+			<option value="40">40</option>
+			<option value="50">50</option>
+		</select>
 		<!-- Seccion con la tabla para las transacciones de efectivo -->
 		<div>
 			<table id="cashTransactionTable">
@@ -77,6 +85,12 @@
 					<th>Eliminar</th>
 				</tr>
 			</table>
+		</div>
+		<div id="pagination">
+			<button id="prevCashBtn">Anterior</button>
+			<span id="pageCashCounter">1</span>
+			<span id="pageCashMax"> - 1</span>
+			<button id="nextCashBtn">Siguiente</button>
 		</div>
 <hr>
 		<!-- Seccion con la tabla para las transacciones de tarjeta -->
@@ -94,6 +108,12 @@
 					<th>Eliminar</th>
 				</tr>
 			</table>
+		</div>
+		<div id="pagination">
+			<button id="prevCardBtn">Anterior</button>
+			<span id="pageCardCounter">1</span>
+			<span id="pageCardMax"> - 1</span>
+			<button id="nextCardBtn">Siguiente</button>
 		</div>
 	</div>
 

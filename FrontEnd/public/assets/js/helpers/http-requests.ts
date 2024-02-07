@@ -1,5 +1,4 @@
 type CreateTransaction = {
-	user: String;
 	movement: String;
 	mount: Number;
 	description: String;
@@ -15,7 +14,6 @@ type UpdateTransaction = {
 }
 
 type UserBalance = {
-	userId: String;
 	movement: String;
 	mount: Number;
 }
@@ -26,8 +24,8 @@ type RegisterUser = {
 	password: string;
 }
 
-// const linkDeveloper: string = "http://localhost:8080/";
-const linkDeveloper: string = "https://lp87h1x1-8080.usw3.devtunnels.ms/";
+const linkDeveloper: string = "http://localhost:8080/";
+// const linkDeveloper: string = "https://lp87h1x1-8080.usw3.devtunnels.ms/";
 
 export class HttpRequest {
 
@@ -67,9 +65,9 @@ export class HttpRequest {
 		.catch( error => { throw error });
 	}
 	
-	static async getTransactions( id: string, token: string ) {
+	static async getTransactions( id: string, token: string, page: number = 1, limit: number = 20 ) {
 
-		return fetch( linkDeveloper + "transaction", {
+		return fetch( linkDeveloper + `transaction?page=${ page }&limit=${ limit }`, {
 			method: "POST",
 			headers: { 
 				"Authorization": token,
