@@ -16,10 +16,6 @@ Esta aplicación tendrá las siguientes funciones, en un futuro puede que se agr
 
 # TO DO
 
-- Devolver el total de transacciones
-	- El total de transacciones CASH
-	- El total de transacciones CARD
-
 - Notificación a final de mes
 	- Total gastado a final de mes
 
