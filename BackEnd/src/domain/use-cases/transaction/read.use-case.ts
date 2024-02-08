@@ -10,7 +10,13 @@ interface transaction {
 	date: Date, 
 }
 
-type TransactionsUserId = transaction[];
+type TransactionsUserId = {
+	transactions: transaction[],
+	totalTransactions: {
+		totalCashTransactions: number,
+		totalCardTransactions: number,
+	}
+};
 
 interface ReadTransactionUseCase {
 	execute( transactionId: string, paginationDTO: PaginationDTO ): Promise< TransactionsUserId >;
@@ -22,9 +28,11 @@ export class ReadTransaction implements ReadTransactionUseCase{
 		private readonly transactionRepository: TransactionRepository,
 	){}
 
-	async execute( transactionId: string, paginationDTO: PaginationDTO ): Promise<TransactionsUserId> {
+	async execute( transactionId: string, paginationDTO: PaginationDTO ): Promise< TransactionsUserId > {
 
 		const transactions = await this.transactionRepository.read( transactionId, paginationDTO );
-		return transactions;
+		const totalTransactions = await this.transactionRepository.getTotalCashCardTransactions( transactionId );
+
+		return { transactions, totalTransactions };
 	}
 }

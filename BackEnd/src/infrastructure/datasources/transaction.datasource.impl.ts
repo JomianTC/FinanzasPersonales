@@ -1,6 +1,14 @@
 import { TransactionModel } from '../../data/mongo';
-import { TransactionEntity, CreateTransactionDTO, UpdateTransactionDTO, CustomError, TransactionDatasource, PaginationDTO } from '../../domain';
-import { TransactionMapper } from '../mappers/transaction-entity.mapper';
+import {
+	TransactionEntity,
+	CreateTransactionDTO,
+	UpdateTransactionDTO,
+	CustomError,
+	TransactionDatasource,
+	PaginationDTO,
+	TotalTransactions
+} from '../../domain';
+import { TransactionMapper } from '../';
 
 export class TransactionDatasourceImpl implements TransactionDatasource {
 
@@ -37,6 +45,34 @@ export class TransactionDatasourceImpl implements TransactionDatasource {
 			});
 			
 			return userTransactions;
+
+		} catch (error) {
+
+			if ( error instanceof CustomError ) throw error;
+			throw CustomError.internalServer( "Internal Server Error" );
+		}
+	}
+
+	async getTotalCashCardTransactions( userID: string ): Promise< TotalTransactions > {
+		
+		try {
+
+			const [ totalCashTransactions, totalCardTransactions ] = await Promise.all([
+				await TransactionModel.find({ user: userID })
+				.countDocuments()
+				.where( "method" ).equals( "CASH" ),
+				await TransactionModel.find({ user: userID })
+				.countDocuments()
+				.where( "method" ).equals( "CARD" ),
+			]);
+
+			if ( totalCashTransactions === 0 || totalCardTransactions === 0 )
+				throw CustomError.badRequest( "Transactions not found" );
+
+			return {
+				totalCashTransactions,
+				totalCardTransactions
+			};
 
 		} catch (error) {
 

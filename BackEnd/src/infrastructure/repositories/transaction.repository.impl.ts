@@ -1,4 +1,12 @@
-import { TransactionEntity, CreateTransactionDTO, UpdateTransactionDTO, TransactionRepository, TransactionDatasource, PaginationDTO } from '../../domain';
+import { 
+	TransactionEntity,
+	CreateTransactionDTO,
+	UpdateTransactionDTO,
+	TransactionRepository,
+	TransactionDatasource,
+	PaginationDTO,
+	TotalTransactions
+} from '../../domain';
 
 export class TransactionRepositoryImpl implements TransactionRepository {
 
@@ -8,6 +16,10 @@ export class TransactionRepositoryImpl implements TransactionRepository {
 
 	read( userID: string, paginationDTO: PaginationDTO ): Promise< TransactionEntity[] > {
 		return this.transactionDatasource.read( userID, paginationDTO );
+	}
+	
+	getTotalCashCardTransactions( userID: string ): Promise<TotalTransactions> {
+		return this.transactionDatasource.getTotalCashCardTransactions( userID );
 	}
 
 	create( createTransactionDTO: CreateTransactionDTO ): Promise< TransactionEntity > {

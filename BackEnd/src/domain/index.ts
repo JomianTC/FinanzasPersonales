@@ -1,4 +1,6 @@
 
+export * from "./types/total-transactions";
+
 export * from "./datasources/auth.datasource";
 export * from "./datasources/transaction.datasource";
 
