@@ -22,8 +22,8 @@ const token: string = JSON.parse( localStorage.getItem( "token" )! );
 
 let cashTransactions: any;
 let cardTransactions: any;
-let totalCashTransactions: number = 102;
-let totalCardTransactions: number = 100;
+let totalCashTransactions: number = 1;
+let totalCardTransactions: number = 1;
 let limit: number = 20;
 
 const prevCashBtn = document.querySelector( "#prevCashBtn" ) as HTMLButtonElement;
@@ -276,14 +276,16 @@ const displayCashTransactions = async ( cashPage: number = 1 ) => {
 
 	try {
 
-		const transactions = await HttpRequest.getTransactions( userData.id, token, cashPage, limit );
-
+		const { transactions, totalTransactions } = await HttpRequest.getTransactions( userData.id, token, cashPage, limit );
+		
 		cashTransactions = getTransactionsByCash( transactions );
 		
 		if ( cashTransactions.length === 0 )
 			cashTransactionTable.innerHTML += `
 				<tr><td colspan="7" id="tdError" >No existen transacciones</td></tr>`;
 		else showTransactions( cashTransactions, cashTransactionTable );
+
+		return totalTransactions.totalCashTransactions;
 	} 
 	catch ( error ) {
 
@@ -298,7 +300,7 @@ const displayCardTransactions = async ( cardPage: number = 1 ) => {
 
 	try {
 
-		const transactions = await HttpRequest.getTransactions( userData.id, token, cardPage, limit );
+		const { transactions, totalTransactions } = await HttpRequest.getTransactions( userData.id, token, cardPage, limit );
 
 		cardTransactions = getTransactionsByCard( transactions );
 		
@@ -306,6 +308,8 @@ const displayCardTransactions = async ( cardPage: number = 1 ) => {
 			cardTransactionTable.innerHTML += `
 				<tr><td colspan="7" id="tdError" >No existen transacciones</td></tr>`;
 		else showTransactions( cardTransactions, cardTransactionTable );
+
+		return totalTransactions.totalCardTransactions
 	} 
 	catch ( error ) {
 
@@ -466,6 +470,9 @@ const createPageLogic = () => {
 	const userH1 = document.querySelector( "#userH1" ) as HTMLHeadingElement;
 	userH1.innerText = `${ userData.name }\nTu balance actual es: ${ userData.balance }`;
 
+	totalCashTransactions = await displayCashTransactions();
+	totalCardTransactions = await displayCardTransactions();
+
 	if ( totalCashTransactions % limit === 0 )
 		pageCashMax.innerText = ` - ${ totalCashTransactions/limit } `;
 	else
@@ -478,9 +485,6 @@ const createPageLogic = () => {
 	
 	createTransactionLogic();
 	createLimitLogic();
-
-	displayCashTransactions();
-	displayCardTransactions();
 	
 	createModal();
 	
@@ -489,5 +493,4 @@ const createPageLogic = () => {
 	
 	createPageLogic();
 	// await implosion();
-
 })();
