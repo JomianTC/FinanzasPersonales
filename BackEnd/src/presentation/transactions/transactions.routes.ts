@@ -15,6 +15,7 @@ export class TransactionsRoutes {
 
 		router.post( "/", JWTMiddleware.validateJWT, controller.getTransactions );
 		router.post( "/create", JWTMiddleware.validateJWT, controller.createTransaction );
+		router.post( "/lastMonth", JWTMiddleware.validateJWT, controller.getLastMonthTransactions );
 		router.put( "/update", JWTMiddleware.validateJWT, controller.updateTransactions );
 		router.delete( "/delete", JWTMiddleware.validateJWT, controller.deleteTransaction );
 

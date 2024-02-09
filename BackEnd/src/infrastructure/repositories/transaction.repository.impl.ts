@@ -22,6 +22,10 @@ export class TransactionRepositoryImpl implements TransactionRepository {
 		return this.transactionDatasource.getTotalCashCardTransactions( userID );
 	}
 
+	lastMonthTransactions( userID: string ): Promise< TransactionEntity[] > {
+		return this.transactionDatasource.lastMonthTransactions( userID );
+	}
+
 	create( createTransactionDTO: CreateTransactionDTO ): Promise< TransactionEntity > {
 		return this.transactionDatasource.create( createTransactionDTO );
 	}

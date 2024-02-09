@@ -8,7 +8,8 @@ import {
 	ReadTransaction, 
 	TransactionRepository, 
 	UpdateTransaction, 
-	UpdateTransactionDTO
+	UpdateTransactionDTO,
+	ReadLastMonthTransaction
 } from "../../domain";
 
 export class TransactionsController {
@@ -49,6 +50,18 @@ export class TransactionsController {
 		new CreateTransaction( this.transactionRepository )
 		.execute( createTransactionDTO! )
 		.then( _data => res.json( "OK" ) )
+		.catch( error => this.handleError( error, res ) );
+
+		return;
+	}
+
+	getLastMonthTransactions = ( req: Request, res: Response ) => {
+
+		const userId = req.body.user;
+
+		new ReadLastMonthTransaction( this.transactionRepository )
+		.execute( userId )
+		.then( data => res.json( data ) )
 		.catch( error => this.handleError( error, res ) );
 
 		return;

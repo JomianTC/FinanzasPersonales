@@ -32,5 +32,6 @@ export * from "./use-cases/transaction/create.use-case";
 export * from "./use-cases/transaction/read.use-case";
 export * from "./use-cases/transaction/update.use-case";
 export * from "./use-cases/transaction/delete.use-case";
+export * from "./use-cases/transaction/last-month.use-case";
 
 export * from "./use-cases/user/update-balance.use-case";

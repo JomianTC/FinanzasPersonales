@@ -81,6 +81,40 @@ export class TransactionDatasourceImpl implements TransactionDatasource {
 		}
 	}
 
+	async lastMonthTransactions( userID: string ): Promise< TransactionEntity[] >{
+
+		try {
+
+			const lastDayPastMonth = new Date( new Date().getFullYear(), new Date().getMonth(), 1 );
+			lastDayPastMonth.setDate( lastDayPastMonth.getDate() - 1 );
+			
+			const year = lastDayPastMonth.getFullYear();
+			const pastMonth = lastDayPastMonth.getMonth() + 1;
+
+			let dateFirstDayMonth = `${ year }-${ pastMonth }-01`;
+			let dateLastDayMonth  = `${ year }-${ pastMonth }-${ lastDayPastMonth.getDate() }`;
+		
+			if ( pastMonth < 10 ) {
+				dateFirstDayMonth = `${ year }-0${ pastMonth }-01`;
+				dateLastDayMonth  = `${ year }-0${ pastMonth }-${ lastDayPastMonth.getDate() }`;	
+			}
+
+			const transactions = await TransactionModel.find({ date: { $gte: dateFirstDayMonth, $lte: dateLastDayMonth } })
+				.where( "user" ).equals( userID )
+				.where( "movement" ).equals( "COST" )
+				.sort({ date: -1 })
+
+			if ( transactions.length === 0 )
+				throw CustomError.badRequest( "Transactions not found" );
+
+			return transactions.map( transaction => TransactionMapper.transactionEntityFromObject( transaction ) );
+
+		} catch ( error ) {
+			if ( error instanceof CustomError ) throw error;
+			throw CustomError.internalServer( "Internal Server Error" );
+		}
+	}
+
 	async create( createTransactionDTO: CreateTransactionDTO ): Promise<TransactionEntity> {
 		
 		const transactionData = createTransactionDTO;
