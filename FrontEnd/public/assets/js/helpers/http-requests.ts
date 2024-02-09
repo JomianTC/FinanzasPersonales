@@ -85,6 +85,22 @@ export class HttpRequest {
 		.catch( error => { throw error });
 	}
 
+	static async getTotalExpenses( token: string ) {
+
+		return fetch( linkDeveloper + `transaction/lastMonth`, {
+			method: "POST",
+			headers: { "Authorization": token, }
+		})
+		.then( async response => {
+			if ( !response.ok ) 
+				throw await response.json()
+				.then( data => { throw data; });
+			return response.json();
+		})
+		.then( data => { return data; })
+		.catch( error => { throw error });
+	}
+
 	static async createTransaction( createTransaction: CreateTransaction, token: string ) {
 
 		return fetch( linkDeveloper + "transaction/create", {

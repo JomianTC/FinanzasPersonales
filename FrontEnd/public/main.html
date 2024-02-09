@@ -16,6 +16,7 @@
 		<b id="userH1">
 			USUARIO
 		</b>
+		<button id="totalExpensesBtn" hidden >Total Gastado</button>
 	</h1>
 
 	<!-- Tabla para agregar una nueva transaccion -->
@@ -153,6 +154,15 @@
 				</div>
 				<button id="updateTransactionModalBtn">Actualizar</button>
 			</form>
+		</div>
+	</div>
+
+	<!-- Modal para mostrar el total gastado a inicios de mes -->
+	<div id="totalExpensesModal" class="modal">
+		<div id="contentExpensesModal" class="contentModal">
+			<span class="closeModal">&times;</span>
+				<h1 id="titleTotalExpenses" ></h1>
+				<span id="mountTotalExpenses" ></span>
 		</div>
 	</div>
 

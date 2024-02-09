@@ -29,7 +29,7 @@ import { HttpRequest } from "./helpers/http-requests";
 			await HttpRequest.registerUser({ name, email, password });
 			window.location.href = "index.html";
 
-		} catch ( error ) { errorMessage.textContent = error; }
+		} catch ( error ) { errorMessage.textContent = error as string; }
 	});
 })();
 

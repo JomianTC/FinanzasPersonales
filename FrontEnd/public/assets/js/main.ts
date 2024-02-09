@@ -1,6 +1,5 @@
 import { 
-	HttpRequest, 
-	sortTransactionsByDate, 
+	HttpRequest,
 	getTransactionsByCash, 
 	getTransactionsByCard, 
 	Transaction,
@@ -10,6 +9,7 @@ import {
 	closeModal,
 	getNewUserBalance,
 } from './helpers';
+import { createExpensesModal, openExpensesModal } from './helpers/utilities/total-expenses';
 
 type UserLocalStore = { 
 	id: string, 
@@ -45,7 +45,7 @@ const cardTransactionTableOriginal = cardTransactionTable.innerHTML;
 const handleJWTError = ( error: string ) => {
 	if ( error === "Invalid Token" ){
 		alert( "Su sesión ha expirado" );
-		window.location.href = "./index.html";
+		window.location.href = "../../../index.html";
 	}
 
 	console.log( error );
@@ -105,7 +105,7 @@ const tableDeleteLogic = async ( historyTitle: HTMLHeadingElement, target: HTMLE
 		window.location.reload();
 		
 	} catch ( error ) { 
-		handleJWTError( error );
+		handleJWTError( error as string );
 		historyTitle.innerText = "Historial - Error al eliminar la transacción";
 	}
 }
@@ -193,7 +193,7 @@ const tableUpdateLogic = ( historyTitle: HTMLHeadingElement, target: HTMLElement
 
 		} catch ( error ) { 
 			closeModal();
-			handleJWTError( error );
+			handleJWTError( error as string );
 			historyTitle.innerText = "Historial - Error al actualizar la transacción";
 		}
 	});
@@ -266,9 +266,11 @@ const createTransactionLogic = async() => {
 			window.location.reload();
 		} 
 		catch ( error ) {
-			handleJWTError( error ); 
+			handleJWTError( error as string ); 
 			tranTittle.innerText = "Agregar - Error al crear la transacción";
 		}
+
+		return;
 	});
 };
 
@@ -289,7 +291,7 @@ const displayCashTransactions = async ( cashPage: number = 1 ) => {
 	} 
 	catch ( error ) {
 
-		handleJWTError( error );
+		handleJWTError( error as string );
 		
 		cashTransactionTable.innerHTML += `
 			<tr><td colspan="7" id="tdError" >No existen transacciones</td></tr>`;
@@ -313,7 +315,7 @@ const displayCardTransactions = async ( cardPage: number = 1 ) => {
 	} 
 	catch ( error ) {
 
-		handleJWTError( error );
+		handleJWTError( error as string );
 		
 		cardTransactionTable.innerHTML += `
 			<tr><td colspan="7" id="tdError" >No existen transacciones</td></tr>`;
@@ -401,6 +403,60 @@ const createPageLogic = () => {
 	});
 };
 
+const modalExpensesTotal = () => {
+	
+	const titleTotalExpenses = document.querySelector( "#titleTotalExpenses" ) as HTMLHeadingElement;
+	const mountTotalExpenses = document.querySelector( "#mountTotalExpenses" ) as HTMLSpanElement;
+	const totalExpensesBtn = document.querySelector( "#totalExpensesBtn" ) as HTMLButtonElement;
+
+	totalExpensesBtn.addEventListener( "click", async () => {
+
+		try {
+		
+			const totalExpenses = await HttpRequest.getTotalExpenses( token );
+
+			const lastDayPastMonth = new Date( new Date().getFullYear(), new Date().getMonth(), 1 );
+			lastDayPastMonth.setDate( lastDayPastMonth.getDate() - 1 );
+			
+			const month = lastDayPastMonth.getMonth();
+			const year = lastDayPastMonth.getFullYear();
+			const todayIs = new Date( year, month, 1 );
+			
+			const monthText = todayIs.toLocaleDateString( "es-ES", { month: 'long' } );
+
+			titleTotalExpenses.innerText = `Gastos totales del mes de ${ monthText }`;
+			mountTotalExpenses.innerText = `$${ totalExpenses.totalExpenses }`;
+			openExpensesModal();
+
+		} catch ( error ) {
+			alert( "Error obteniendo los datos" );
+			console.error( error );
+		}
+	});
+};
+
+const firstDayMonthNotificaction = async () => {
+
+	const totalExpensesBtn = document.querySelector( "#totalExpensesBtn" ) as HTMLButtonElement;
+
+	if ( !window.Notification )
+		console.log( "Este navegador no soporta notificaciones" );
+
+	if ( Notification.permission === "granted" ){
+		new Notification( "¡Es el primer día del mes!" );
+	}
+	else if ( Notification.permission === "denied" || Notification.permission === "default" ){
+		Notification.requestPermission( function ( permission ) {
+			if ( permission === "granted" )
+			new Notification( "¡Es el primer día del mes!" );
+		});
+	}
+
+	if ( new Date().getDate() === 1 ){
+		totalExpensesBtn.hidden = false;
+	}
+};
+
 // Funcion que nos crea registros aleatorios
 // const implosion = async () => {
 
@@ -416,36 +472,25 @@ const createPageLogic = () => {
 
 // 		const transactionS: TransactionImplosion[] = [];
 
-// 		for (let i = 0; i < 100; i++) {
+// 		for (let i = 0; i < 20; i++) {
 // 			const method = Math.random() < 0.5 ? 'CASH' : 'CARD';
 // 			const movement = Math.random() < 0.5 ? 'COST' : 'INCOME';
 // 			const mount = Math.floor(Math.random() * 5000) + 100; // Número aleatorio entre 100 y 5099
 // 			const description = `Transacción ${i + 100}`;
 // 			// const date = createDateHttpRequest( new Date().toLocaleDateString() );
 
-// 			const randomMonth = Math.floor(Math.random() * 12); // Mes aleatorio entre 0 y 11
 // 			const randomDay = Math.floor(Math.random() * 31) + 1; // Día aleatorio entre 1 y 31
 
-// 			const date = new Date( 2023, randomMonth, randomDay );
+// 			const date = new Date( 2024, 1, randomDay );
 
-// 			const year = date.getFullYear();
-// 			const month = date.getMonth() + 1;
 // 			const day = date.getDate();
 		
-// 			if ( month < 10 && day < 10 ){
-// 				transactionS.push({ method, movement, mount, description, date: `${year}-0${month}-0${day}` });
-// 				continue;
-// 			} 
-// 			if ( month < 10 ){
-// 				transactionS.push({ method, movement, mount, description, date: `${year}-0${month}-${day}` });
-// 				continue;
-// 			} 
 // 			if ( day < 10 ){
-// 				transactionS.push({ method, movement, mount, description, date: `${year}-${month}-0${day}` });
+// 				transactionS.push({ method, movement, mount, description, date: `2024-01-0${day}` });
 // 				continue;
 // 			} 
 		
-// 			transactionS.push({ method, movement, mount, description, date: `${year}-${month}-${day}` });
+// 			transactionS.push({ method, movement, mount, description, date: `2024-01-${day}` });
 // 		}
 
 // 		transactionS.forEach( async ( transaction ) => {
@@ -487,6 +532,10 @@ const createPageLogic = () => {
 	createLimitLogic();
 	
 	createModal();
+	createExpensesModal();
+	modalExpensesTotal();
+
+	firstDayMonthNotificaction();
 	
 	transactionTableEventListener( cardTransactionTable );
 	transactionTableEventListener( cashTransactionTable );
