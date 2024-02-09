@@ -17,7 +17,8 @@ Esta aplicación tendrá las siguientes funciones, en un futuro puede que se agr
 # TO DO
 
 - Notificación a final de mes
-	- Total gastado a final de mes
+	- Ejecutar la notificación
+	- Posiblemente necesaria la refactorización
 
 - Refactorización FrontEnd
 	- Mostrar únicamente los últimos 4 dígitos de la id
