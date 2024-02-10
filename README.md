@@ -18,13 +18,14 @@ Esta aplicación tendrá las siguientes funciones, en un futuro puede que se agr
 
 - Notificación a final de mes
 	- Ejecutar la notificación
-	- Posiblemente necesaria la refactorización
 
-- Refactorización FrontEnd
+- Actualizar FrontEnd
 	- Mostrar únicamente los últimos 4 dígitos de la id
-	- Eliminar la actualización de la pagina cada que se ejecute una operación CRUD
 
 - Hacerlo una PWA
 	- Hacerla responsiva
 	- Guardar últimos 50 registros
 	- Guardar registros creados sin conexión
+
+- Tareas que no veo posible hacer
+	- Eliminar la actualización de la pagina cada que se ejecute una operación CRUD
