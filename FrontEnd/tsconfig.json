@@ -2,7 +2,7 @@
 	"exclude": ["node_modules", "**/*.spec.ts", "**/*.test.ts"],
 	"compilerOptions": {
 		"target": "ES2016",
-		"module": "commonjs",
+		"module": "System",
 		"outDir": "./dist",
 		"esModuleInterop": true,
 		"strict": true,
@@ -12,6 +12,7 @@
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
 		"skipLibCheck": true,
+		"types": ["vite/client"]
 	},
 	"include": ["src/**/*.ts", "public/**/*.ts"]
 }
