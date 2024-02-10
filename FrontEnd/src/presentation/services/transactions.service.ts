@@ -1,5 +1,5 @@
-import { envs } from "../../config/env-var";
-import { CreateTransaction, ReadTransaction, UpdateTransaction } from "../../infrastructure/index";
+import { envs } from "../../config/env-var.js";
+import { CreateTransaction, ReadTransaction, UpdateTransaction } from "../../infrastructure/index.js";
 
 const httpLink = envs.VITE_DEV_LINK;
 

@@ -1,5 +1,5 @@
-import { envs } from "../../config/env-var";
-import { UpdateBalance } from "../../infrastructure/index";
+import { envs } from "../../config/env-var.js";
+import { UpdateBalance } from "../../infrastructure/index.js";
 
 const httpLink = envs.VITE_DEV_LINK;
 

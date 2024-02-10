@@ -1,4 +1,4 @@
 
-export * from './jwt-error';
+export * from './jwt-error.js';
 
-export * from './create-date';
+export * from './create-date.js';

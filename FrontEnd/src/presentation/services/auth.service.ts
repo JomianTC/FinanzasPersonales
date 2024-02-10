@@ -1,5 +1,5 @@
-import { envs } from "../../config/env-var";
-import { RegisterUser, LoginUser } from "../../infrastructure/index";
+import { envs } from "../../config/env-var.js";
+import { RegisterUser, LoginUser } from "../../infrastructure/index.js";
 
 const httpLink = envs.VITE_DEV_LINK;
 

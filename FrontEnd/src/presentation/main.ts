@@ -1,5 +1,5 @@
-import { UserLocalStorage, createExpensesModal, createUpdateTransactionModal } from "../infrastructure/index";
-import { createNotificationLastMonthExpenses, createPaginationLogic, createTransactionLogic, createTransactionTableListener, displayTotalTransactionPages } from "./utilities/index";
+import { UserLocalStorage, createExpensesModal, createUpdateTransactionModal } from "../infrastructure/index.js";
+import { createNotificationLastMonthExpenses, createPaginationLogic, createTransactionLogic, createTransactionTableListener, displayTotalTransactionPages } from "./utilities/index.js";
 
 const userData: UserLocalStorage = JSON.parse( localStorage.getItem( "user" )! );
 let transactionLimit: number = 20;

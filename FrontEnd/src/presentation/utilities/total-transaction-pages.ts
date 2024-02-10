@@ -1,5 +1,5 @@
-import { handleError } from "../helpers/jwt-error";
-import { getTotalTransactions } from "./requests";
+import { handleError } from "../helpers/jwt-error.js";
+import { getTotalTransactions } from "./requests.js";
 
 const pageCashMax = document.querySelector( "#pageCashMax" ) as HTMLSpanElement;
 const pageCardMax = document.querySelector( "#pageCardMax" ) as HTMLSpanElement;

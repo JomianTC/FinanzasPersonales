@@ -1,4 +1,4 @@
-import { fetchAndDisplayUserTransactions } from "./get-show-transactions";
+import { fetchAndDisplayUserTransactions } from "./get-show-transactions.js";
 
 const prevCashBtn = document.querySelector( "#prevCashBtn" ) as HTMLButtonElement;
 const nextCashBtn = document.querySelector( "#nextCashBtn" ) as HTMLButtonElement;

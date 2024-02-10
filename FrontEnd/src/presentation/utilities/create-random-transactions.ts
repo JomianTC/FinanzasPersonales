@@ -1,6 +1,6 @@
-import { CreateTransaction } from "../../infrastructure/index";
-import { TransactionsService } from "../services/transactions.service";
-import { UserService } from "../services/user.service";
+import { CreateTransaction } from "../../infrastructure/index.js";
+import { TransactionsService } from "../services/transactions.service.js";
+import { UserService } from "../services/user.service.js";
 
 // Funcion que nos crea 100 registros aleatorios
 export const createHundredTransactions = async ( token: string ) => {

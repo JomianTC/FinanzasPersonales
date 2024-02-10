@@ -1,4 +1,4 @@
-import { deleteTransaction } from "./requests";
+import { deleteTransaction } from "./requests.js";
 
 export const getTransactionIdAndDelete = async ( historyTitle: HTMLHeadingElement, target: HTMLElement ) => {
 

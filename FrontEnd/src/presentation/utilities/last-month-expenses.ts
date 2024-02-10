@@ -1,5 +1,5 @@
-import { openExpensesModal } from "../../infrastructure/index";
-import { getLastMonthExpenses } from "./requests";
+import { openExpensesModal } from "../../infrastructure/index.js";
+import { getLastMonthExpenses } from "./requests.js";
 
 const titleTotalExpenses = document.querySelector( "#titleTotalExpenses" ) as HTMLHeadingElement;
 const mountTotalExpenses = document.querySelector( "#mountTotalExpenses" ) as HTMLSpanElement;

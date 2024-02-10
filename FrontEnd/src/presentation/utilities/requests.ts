@@ -1,7 +1,7 @@
-import { CreateTransaction, TotalTransactions, Transaction, UpdateBalance, UpdateTransaction, UserLocalStorage } from "../../infrastructure/index";
-import { handleError } from "../helpers/jwt-error";
-import { TransactionsService } from "../services/transactions.service";
-import { UserService } from "../services/user.service";
+import { CreateTransaction, TotalTransactions, Transaction, UpdateBalance, UpdateTransaction, UserLocalStorage } from "../../infrastructure/index.js";
+import { handleError } from "../helpers/jwt-error.js";
+import { TransactionsService } from "../services/transactions.service.js";
+import { UserService } from "../services/user.service.js";
 
 const token: string = JSON.parse( localStorage.getItem( "token" )! );
 const userData: UserLocalStorage = JSON.parse( localStorage.getItem( "user" )! );

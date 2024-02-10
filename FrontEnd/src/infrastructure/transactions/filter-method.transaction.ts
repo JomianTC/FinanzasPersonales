@@ -1,4 +1,4 @@
-import { Transaction } from "../index";
+import { Transaction } from "../index.js";
 
 export const getTransactionsByCash = ( userTransactions: Transaction[] ) => {
 

@@ -1,6 +1,6 @@
-import { closeUpdateTransactionModal, getBalanceInfo, openUpdateTransactionModal } from "../../infrastructure/index";
-import { createDateForRequest } from "../helpers/create-date";
-import { updateTransaction } from "./requests";
+import { closeUpdateTransactionModal, getBalanceInfo, openUpdateTransactionModal } from "../../infrastructure/index.js";
+import { createDateForRequest } from "../helpers/create-date.js";
+import { updateTransaction } from "./requests.js";
 
 const modalMethod = document.querySelector( "#modalMethod" ) as HTMLSelectElement;
 const modalMovement = document.querySelector( "#modalMovement" ) as HTMLSelectElement;

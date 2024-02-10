@@ -1,5 +1,5 @@
-import { getTransactionIdAndDelete } from "./delete-transaction";
-import { setTransactionInfoInModal } from "./update-transaction";
+import { getTransactionIdAndDelete } from "./delete-transaction.js";
+import { setTransactionInfoInModal } from "./update-transaction.js";
 
 const cashTransactionTable = document.querySelector( "#cashTransactionTable" ) as HTMLTableElement;
 const cardTransactionTable = document.querySelector( "#cardTransactionTable" ) as HTMLTableElement;

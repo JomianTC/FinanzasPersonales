@@ -1,6 +1,6 @@
-import { Transaction, getTransactionsByCard, getTransactionsByCash } from "../../infrastructure/index";
-import { createDateForRequest } from "../helpers/create-date";
-import { getUserTransactions } from "./requests";
+import { Transaction, getTransactionsByCard, getTransactionsByCash } from "../../infrastructure/index.js";
+import { createDateForRequest } from "../helpers/create-date.js";
+import { getUserTransactions } from "./requests.js";
 
 const cashTransactionTable = document.querySelector( "#cashTransactionTable" ) as HTMLTableElement;
 const cardTransactionTable = document.querySelector( "#cardTransactionTable" ) as HTMLTableElement;

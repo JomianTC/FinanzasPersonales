@@ -1,5 +1,5 @@
-import { createDateForRequest } from "../helpers/create-date";
-import { createTransaction } from "./requests";
+import { createDateForRequest } from "../helpers/create-date.js";
+import { createTransaction } from "./requests.js";
 
 const tranTittle = document.querySelector( "#addTransactionTittle" ) as HTMLHeadingElement;
 
