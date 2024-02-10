@@ -9,7 +9,8 @@ import {
 	TransactionRepository, 
 	UpdateTransaction, 
 	UpdateTransactionDTO,
-	ReadLastMonthTransaction
+	ReadLastMonthTransaction,
+	ReadTotalTransaction
 } from "../../domain";
 
 export class TransactionsController {
@@ -36,6 +37,18 @@ export class TransactionsController {
 
 		new ReadTransaction( this.transactionRepository )
 		.execute( userId, paginationDTO! )
+		.then( data => res.json( data ) )
+		.catch( error => this.handleError( error, res ) );
+
+		return;
+	}
+
+	getTotalTransactions = ( req: Request, res: Response ) => {
+
+		const userId = req.body.user;
+
+		new ReadTotalTransaction( this.transactionRepository )
+		.execute( userId )
 		.then( data => res.json( data ) )
 		.catch( error => this.handleError( error, res ) );
 

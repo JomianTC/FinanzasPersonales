@@ -23,8 +23,8 @@ POST http://localhost:8080/auth/register
 Content-Type: application/json
 
 {
-	"name": "Miguel Angel",
-	"email": "jomiantoca-2013@gmail.com",
+	"name": "Testing Man",
+	"email": "testing@test.com",
 	"password": "123456"
 }
 
@@ -48,11 +48,15 @@ Content-Type: application/json
 
 ### Get Transactions
 POST http://localhost:8080/transaction
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YzU1NzcxYzg2ZGJiMjk2NWYxZDZmMiIsIm5hbWUiOiJNaWd1ZWwgQW5nZWwiLCJiYWxhbmNlIjoxMjUwMCwiaWF0IjoxNzA3NDMxODcxLCJleHAiOjE3MDc0NDI2NzF9.mF97IDD9VsvWDBE8kF0PSD_LXzV9AA6OP9fnMSueMws
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YzZhOTNmNTYxN2JiOTZjZWMwMTlhNyIsIm5hbWUiOiJUZXN0aW5nIE1hbiIsImJhbGFuY2UiOjAsImlhdCI6MTcwNzUxODI4NSwiZXhwIjoxNzA3NTI5MDg1fQ.cvt0HyAssv497QCkMTGvRBDBitHiXpQq7_iBZ72iCus
+
+### Get Total Transactions by Method
+POST http://localhost:8080/transaction/total
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YmQ4MDI3YmNlZWRkN2IzNzUwODRjMiIsIm5hbWUiOiJKb21pYW5UQyIsImJhbGFuY2UiOjcwMDAwMCwiaWF0IjoxNzA3NTE2NDM2LCJleHAiOjE3MDc1MjcyMzZ9.OU5nrHaNdkxSXb_aOe112-5sKHv-ebk7ffV_4TbM-0Q
 
 ### Get Last Month Transactions
 POST http://localhost:8080/transaction/lastMonth
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YmQ4MDI3YmNlZWRkN2IzNzUwODRjMiIsIm5hbWUiOiJKb21pYW5UQyIsImJhbGFuY2UiOjcxNDA0OCwiaWF0IjoxNzA3NDI4ODg5LCJleHAiOjE3MDc0Mzk2ODl9.0KL6EK4jhqqlnJYcDSn811dnlUxWJNHI4yiX3fXniqQ
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YmQ4MDI3YmNlZWRkN2IzNzUwODRjMiIsIm5hbWUiOiJKb21pYW5UQyIsImJhbGFuY2UiOjc3Nzc3NywiaWF0IjoxNzA3NTM3MTQ5LCJleHAiOjE3MDc1NDc5NDl9.-8J9F6T1VsrXDPcnK7H2jzJukquSfl33XKPjPEGithU
 
 ### Create Transaction
 POST http://localhost:8080/transaction/create

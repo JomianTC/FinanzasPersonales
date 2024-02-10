@@ -30,6 +30,7 @@ export * from "./use-cases/auth/register.use-case";
 
 export * from "./use-cases/transaction/create.use-case";
 export * from "./use-cases/transaction/read.use-case";
+export * from "./use-cases/transaction/read-total.use-case";
 export * from "./use-cases/transaction/update.use-case";
 export * from "./use-cases/transaction/delete.use-case";
 export * from "./use-cases/transaction/last-month.use-case";

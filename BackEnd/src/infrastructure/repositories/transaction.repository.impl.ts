@@ -18,8 +18,8 @@ export class TransactionRepositoryImpl implements TransactionRepository {
 		return this.transactionDatasource.read( userID, paginationDTO );
 	}
 	
-	getTotalCashCardTransactions( userID: string ): Promise<TotalTransactions> {
-		return this.transactionDatasource.getTotalCashCardTransactions( userID );
+	getTotalTransactionsByMethod( userID: string ): Promise<TotalTransactions> {
+		return this.transactionDatasource.getTotalTransactionsByMethod( userID );
 	}
 
 	lastMonthTransactions( userID: string ): Promise< TransactionEntity[] > {

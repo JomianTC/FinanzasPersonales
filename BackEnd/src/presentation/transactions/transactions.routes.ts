@@ -14,6 +14,7 @@ export class TransactionsRoutes {
 		const controller = new TransactionsController( repository );		
 
 		router.post( "/", JWTMiddleware.validateJWT, controller.getTransactions );
+		router.post( "/total", JWTMiddleware.validateJWT, controller.getTotalTransactions );
 		router.post( "/create", JWTMiddleware.validateJWT, controller.createTransaction );
 		router.post( "/lastMonth", JWTMiddleware.validateJWT, controller.getLastMonthTransactions );
 		router.put( "/update", JWTMiddleware.validateJWT, controller.updateTransactions );

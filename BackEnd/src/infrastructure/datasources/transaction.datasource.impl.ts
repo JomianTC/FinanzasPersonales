@@ -53,7 +53,7 @@ export class TransactionDatasourceImpl implements TransactionDatasource {
 		}
 	}
 
-	async getTotalCashCardTransactions( userID: string ): Promise< TotalTransactions > {
+	async getTotalTransactionsByMethod( userID: string ): Promise< TotalTransactions > {
 		
 		try {
 

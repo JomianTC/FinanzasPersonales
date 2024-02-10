@@ -7,7 +7,7 @@ export class PaginationDTO {
 
 	static create( object: { [ key: string ] : any } ): [ string?, PaginationDTO? ]{
 
-		const { page = 1, limit = 10 } = object;
+		const { page = 1, limit = 20 } = object;
 
 		if ( !page ) return [ "Missing page" ];
 		if ( !limit ) return [ "Missing limit" ];
