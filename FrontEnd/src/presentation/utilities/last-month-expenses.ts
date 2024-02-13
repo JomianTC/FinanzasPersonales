@@ -5,26 +5,7 @@ const titleTotalExpenses = document.querySelector( "#titleTotalExpenses" ) as HT
 const mountTotalExpenses = document.querySelector( "#mountTotalExpenses" ) as HTMLSpanElement;
 const totalExpensesBtn = document.querySelector( "#totalExpensesBtn" ) as HTMLButtonElement;
 
-export const createNotificationLastMonthExpenses = () => {
-	
-	if ( !window.Notification )
-		console.log( "Este navegador no soporta notificaciones" );
-
-	if ( Notification.permission === "granted" ){
-		new Notification( "¡Es el primer día del mes!" );
-	}
-	else if ( Notification.permission === "denied" || Notification.permission === "default" ){
-		Notification.requestPermission( function ( permission ) {
-			if ( permission === "granted" )
-			new Notification( "¡Es el primer día del mes!" );
-		});
-	}
-
-	// if ( new Date().getDate() === 1 )
-		totalExpensesBtn.hidden = false;
-};
-
-totalExpensesBtn.addEventListener( "click", async () => {
+const showLastMonthExpenses = async () => {
 
 	const [ expensesError, totalExpenses ] = await getLastMonthExpenses();
 
@@ -43,4 +24,27 @@ totalExpensesBtn.addEventListener( "click", async () => {
 	mountTotalExpenses.innerText = `$${ totalExpenses }`;
 		
 	openExpensesModal();
-});
+};
+
+export const createNotificationLastMonthExpenses = () => {
+	
+	if ( !window.Notification )
+		console.log( "Este navegador no soporta notificaciones" );
+
+	if ( Notification.permission !== "granted" )
+		Notification.requestPermission();
+
+	if ( new Date().getDate() === 1 ){
+
+		totalExpensesBtn.hidden = false;
+
+		const montlyNotitifaction = new Notification( "Altas Finanzas", {
+			icon: "../../../assets/icon/favicon.ico",
+			body: "Los gastos del mes estan disponibles"
+		});
+
+		montlyNotitifaction.onclick = () => showLastMonthExpenses();
+	}
+};
+
+totalExpensesBtn.addEventListener( "click", async () => { await showLastMonthExpenses(); });
